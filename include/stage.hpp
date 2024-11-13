@@ -3,6 +3,8 @@
 
 #include "game.hpp"
 
+using namespace std;
+
 class Game;
 
 class Stage
@@ -18,6 +20,7 @@ class Stage
         Stage(Game *gm);
         void draw();
         void run();
+        void drawText(string text, int x, int y);
         virtual void cleanUp()=0;
 };
 
