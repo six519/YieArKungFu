@@ -25,6 +25,12 @@ void Stage::cleanUp()
 
 void TitleStage::init()
 {
+    // set konami logo to center
+    game->sprites.at("konami_logo").y = 35;
+    game->sprites.at("konami_logo").x = (GAME_WIDTH / 2) - (game->sprites.at("konami_logo").getTexture().width / 2);
+    // set title to center
+    game->sprites.at("title").y = 85;
+    game->sprites.at("title").x = (GAME_WIDTH / 2) - (game->sprites.at("title").getTexture().width / 2);
 }
 
 void TitleStage::handleKeys()
@@ -64,6 +70,8 @@ void Stage::draw()
 
 void TitleStage::stageDraw()
 {
+    game->sprites.at("konami_logo").draw();
+    game->sprites.at("title").draw();
 }
 
 void TitleStage::cleanUp()

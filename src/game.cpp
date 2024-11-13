@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <map>
 
 Game::Game()
 {
@@ -6,6 +7,13 @@ Game::Game()
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE);
     InitAudioDevice();
 
+    // initialize sprites
+    for (auto& name : SpriteImages)
+    {
+        loadSprite(name);
+    }
+
+    // initialize stages
     titleStage = new TitleStage(this);
 
     SetTargetFPS(TARGET_FPS);
@@ -13,6 +21,13 @@ Game::Game()
 
 void Game::cleanUp()
 {
+    // unload sprite textures
+    for (auto& name : SpriteImages)
+    {
+        sprites.at(name).unload();
+    }
+
+    // other raylib cleanups
     CloseAudioDevice();
 }
 
@@ -28,4 +43,9 @@ void Game::run()
 
     cleanUp();
     CloseWindow();
+}
+
+void Game::loadSprite(string name)
+{
+    sprites.insert({name, Sprite("assets/images/" + name + ".png")});
 }
