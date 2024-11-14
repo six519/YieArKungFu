@@ -14,7 +14,6 @@ class Sprite
     protected:
         Texture2D texture;
         int tileCount;
-        int decreaseWidth;
         Rectangle frameRect;
     public:
         int x;
@@ -24,7 +23,7 @@ class Sprite
         void unload();
         void draw();
         void drawByIndex(int index);
-        void setTileCount(int count, int decreaseWidth);
+        void setTileCount(int count);
 };
 
 const vector<string> SpriteImages = {
@@ -33,8 +32,8 @@ const vector<string> SpriteImages = {
     "letters"
 };
 
-const string CopyrightText = "1985 konami";
-const string OtherText = "2024 ferdie silva";
+const string CopyrightText = "* 1985 konami";
+const string OtherText = "* 2024 silva";
 const string ToStartText = "press enter to start";
 
 const vector<char> SpriteLetters = {

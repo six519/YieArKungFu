@@ -13,7 +13,7 @@ Game::Game()
         loadSprite(name);
     }
 
-    sprites.at("letters").setTileCount(SpriteLetters.size(), 1);
+    sprites.at("letters").setTileCount(SpriteLetters.size());
 
     // initialize stages
     titleStage = new TitleStage(this);
