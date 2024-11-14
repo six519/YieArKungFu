@@ -32,10 +32,10 @@ void Stage::draw()
     BeginDrawing();
     BeginTextureMode(renderTexture);
 
+    ClearBackground(BLACK);
     this->stageDraw();
 
     EndTextureMode();
-    ClearBackground(BLACK);
 
     Rectangle srcRect = (Rectangle){ 
         0.0, 
