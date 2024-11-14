@@ -6,12 +6,14 @@
 #include "settings.hpp"
 #include "stage.hpp"
 #include "sprite.hpp"
+#include "player.hpp"
 
 using namespace std;
 
 class TitleStage;
 class ViewStage;
 class GameStage;
+class Player;
 
 class Game
 {
@@ -25,6 +27,7 @@ class Game
     public:
         int state;
         int stage;
+        Player *player;
         map<string, Sprite> sprites;
         map<string, Music> musics;
         Game();

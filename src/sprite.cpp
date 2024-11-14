@@ -6,6 +6,7 @@ Sprite::Sprite(string imagePath)
     x = 0;
     y = 0;
     frameRect = (Rectangle){ 0.0, 0.0, (float)texture.width, (float)texture.height };
+    frameSpeed = FRAME_SPEED;
 }
 
 void Sprite::unload()
@@ -38,4 +39,29 @@ Texture2D Sprite::getTexture()
 void Sprite::flipHorizontal()
 {
     frameRect.width = -frameRect.width;
+}
+
+void Sprite::play()
+{
+    framesCounter++;
+
+    if (framesCounter >= (TARGET_FPS / frameSpeed))
+    {
+        framesCounter = 0;
+        currentFrame++;
+
+        if (currentFrame > (tileCount - 1))
+        {
+            currentFrame = 0;
+            //this->onLastFrame();
+        }
+        frameRect.x = (float)currentFrame*(float)texture.width/tileCount;
+    }
+
+    draw();
+}
+
+void Sprite::overrideFrameSpeed(int speed)
+{
+    frameSpeed = speed;
 }

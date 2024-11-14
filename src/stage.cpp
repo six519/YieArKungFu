@@ -229,9 +229,10 @@ void GameStage::stageDraw()
 {
     UpdateMusicStream(game->musics.at("bg"));
 
-
     // background is the last to draw
     game->sprites.at("game_bg").draw();
+
+    game->player->play();
 }
 
 void GameStage::onBlinkingDone(){}

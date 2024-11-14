@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <raylib.h>
+#include "settings.hpp"
 
 using namespace std;
 
@@ -14,7 +15,10 @@ class Sprite
     protected:
         Texture2D texture;
         int tileCount;
+        int currentFrame;
+        int framesCounter;
         Rectangle frameRect;
+        int frameSpeed;
     public:
         int x;
         int y;
@@ -22,9 +26,11 @@ class Sprite
         Texture2D getTexture();
         void unload();
         void draw();
+        void play();
         void drawByIndex(int index);
         void setTileCount(int count);
         void flipHorizontal();
+        void overrideFrameSpeed(int speed);
 };
 
 const vector<string> SpriteImages = {

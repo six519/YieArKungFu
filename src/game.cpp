@@ -15,6 +15,7 @@ Game::Game()
     }
 
     sprites.at("letters").setTileCount(SpriteLetters.size());
+    sprites.at("player_normal").setTileCount(2);
 
     // initialize musics
     for (auto& name : MusicsList)
@@ -26,6 +27,9 @@ Game::Game()
     titleStage = new TitleStage(this);
     viewStage = new ViewStage(this);
     gameStage = new GameStage(this);
+
+    // initialize player
+    player = new Player(this);
 
     SetTargetFPS(TARGET_FPS);
 }
