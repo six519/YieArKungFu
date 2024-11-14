@@ -119,6 +119,7 @@ void TitleStage::handleKeys()
     if(IsKeyDown(KEY_ENTER) && !blinkEnter)
     {
         blinkEnter = true;
+        PlayMusicStream(game->musics.at("bg"));
         //this->cleanUp();
     }
 }
@@ -134,6 +135,11 @@ void TitleStage::stageDraw()
 
     // press enter to start
     drawText(ToStartText, (GAME_WIDTH / 2) - ((ToStartText.size() * LETTER_WIDTH) / 2), 165, blinkEnter);
+
+    if (blinkEnter)
+    {
+        UpdateMusicStream(game->musics.at("bg"));
+    }
 }
 
 void TitleStage::cleanUp()

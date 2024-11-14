@@ -20,6 +20,7 @@ class Game
         void loadMusic(string name);
     public:
         int state;
+        int stage;
         map<string, Sprite> sprites;
         map<string, Music> musics;
         Game();

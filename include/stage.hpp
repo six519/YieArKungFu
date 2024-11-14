@@ -1,6 +1,10 @@
 #ifndef _STAGE_H_
 #define _STAGE_H_
 
+#define STAGE_START 0
+#define STAGE_VIEW 1
+#define STAGE_GAME 2
+
 #include "game.hpp"
 
 using namespace std;

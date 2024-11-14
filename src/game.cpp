@@ -4,6 +4,7 @@
 Game::Game()
 {
     state = 0;
+    stage = 1;
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE);
     InitAudioDevice();
 
@@ -52,7 +53,14 @@ void Game::run()
         if(IsKeyDown(KEY_ESCAPE) || WindowShouldClose())
             break;
 
-        titleStage->run();
+        switch(state)
+        {
+            case STAGE_VIEW:
+                break;
+            default:
+                titleStage->run();
+                break;
+        }
     }
 
     cleanUp();
