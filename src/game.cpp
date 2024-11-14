@@ -15,6 +15,12 @@ Game::Game()
 
     sprites.at("letters").setTileCount(SpriteLetters.size());
 
+    // initialize musics
+    for (auto& name : MusicsList)
+    {
+        loadMusic(name);
+    }
+
     // initialize stages
     titleStage = new TitleStage(this);
 
@@ -27,6 +33,12 @@ void Game::cleanUp()
     for (auto& name : SpriteImages)
     {
         sprites.at(name).unload();
+    }
+
+    // unload musics
+    for (auto& name : MusicsList)
+    {
+        UnloadMusicStream(musics.at(name));
     }
 
     // other raylib cleanups
@@ -50,4 +62,9 @@ void Game::run()
 void Game::loadSprite(string name)
 {
     sprites.insert({name, Sprite("assets/images/" + name + ".png")});
+}
+
+void Game::loadMusic(string name)
+{
+    musics.insert({name, LoadMusicStream(("assets/musics/" + name + ".mp3").c_str())});
 }

@@ -17,11 +17,17 @@ class Game
         TitleStage *titleStage;
         void cleanUp();
         void loadSprite(string name);
+        void loadMusic(string name);
     public:
         int state;
         map<string, Sprite> sprites;
+        map<string, Music> musics;
         Game();
         void run();
+};
+
+const vector<string> MusicsList = {
+    "bg"
 };
 
 #endif
