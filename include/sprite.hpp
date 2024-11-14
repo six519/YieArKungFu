@@ -29,7 +29,8 @@ class Sprite
 const vector<string> SpriteImages = {
     "title",
     "konami_logo",
-    "letters"
+    "letters",
+    "game_bg"
 };
 
 const string CopyrightText = "* 1985 konami";

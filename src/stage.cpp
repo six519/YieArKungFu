@@ -4,6 +4,8 @@ Stage::Stage(Game *gm)
 {
     game = gm;
     initialized = false;
+    timeSeconds = 0;
+    timeCounter = 0;
     renderTexture = LoadRenderTexture(GAME_WIDTH, GAME_HEIGHT);
 };
 
@@ -13,6 +15,7 @@ void Stage::run()
         this->init();
         initialized = true;
     }
+    this->timeTick();
     this->draw();
     this->handleKeys();
 }
@@ -20,6 +23,8 @@ void Stage::run()
 void Stage::cleanUp()
 {
     initialized = false;
+    timeSeconds = 0;
+    timeCounter = 0;
 }
 
 void Stage::unloadTexture()
@@ -110,6 +115,23 @@ void Stage::drawText(string text, int x, int y, bool blink)
     }
 }
 
+void Stage::timeTick()
+{
+    timeCounter++;
+    if (timeCounter >= (TARGET_FPS / FRAME_SPEED))
+    {
+        timeCounter = 0;
+        if (timeSeconds == 59)
+        {
+            timeSeconds = 0;
+            this->onTimeTick();
+            return;
+        }
+        timeSeconds += 1;
+        this->onTimeTick();
+    }
+}
+
 void TitleStage::init()
 {
     // set konami logo to center
@@ -166,13 +188,11 @@ void TitleStage::cleanUp()
     Stage::cleanUp();
 }
 
-void ViewStage::init()
-{
-}
+void TitleStage::onTimeTick(){}
 
-void ViewStage::handleKeys()
-{
-}
+void ViewStage::init(){}
+
+void ViewStage::handleKeys(){}
 
 void ViewStage::stageDraw()
 {
@@ -185,11 +205,40 @@ void ViewStage::stageDraw()
     );
 }
 
-void ViewStage::onBlinkingDone()
-{
-}
+void ViewStage::onBlinkingDone(){}
 
 void ViewStage::cleanUp()
 {
     Stage::cleanUp();
 }
+
+void ViewStage::onTimeTick()
+{
+    if (timeSeconds == 10)
+    {
+        game->state = STAGE_GAME;
+        this->cleanUp();
+    }
+}
+
+void GameStage::init(){}
+
+void GameStage::handleKeys(){}
+
+void GameStage::stageDraw()
+{
+    UpdateMusicStream(game->musics.at("bg"));
+
+
+    // background is the last to draw
+    game->sprites.at("game_bg").draw();
+}
+
+void GameStage::onBlinkingDone(){}
+
+void GameStage::cleanUp()
+{
+    Stage::cleanUp();
+}
+
+void GameStage::onTimeTick(){}
