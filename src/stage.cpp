@@ -19,6 +19,11 @@ void Stage::run()
 
 void Stage::cleanUp()
 {
+    initialized = false;
+}
+
+void Stage::unloadTexture()
+{
     UnloadRenderTexture(renderTexture);
 }
 
@@ -72,6 +77,7 @@ void Stage::drawText(string text, int x, int y, bool blink)
             if (currentFrame.at(text) > 1)
             {
                 currentFrame.at(text) = 0;
+                this->onBlinkingDone();
             }
         }
     }
@@ -120,7 +126,6 @@ void TitleStage::handleKeys()
     {
         blinkEnter = true;
         PlayMusicStream(game->musics.at("bg"));
-        //this->cleanUp();
     }
 }
 
@@ -142,9 +147,43 @@ void TitleStage::stageDraw()
     }
 }
 
+void TitleStage::onBlinkingDone()
+{
+    if (blinkCount == maxBlink)
+    {
+        game->state = STAGE_VIEW;
+        this->cleanUp();
+        return;
+    }
+
+    blinkCount += 1;
+}
+
 void TitleStage::cleanUp()
 {
-    initialized = false;
     blinkEnter = false;
+    blinkCount = 0;
+    Stage::cleanUp();
+}
+
+void ViewStage::init()
+{
+}
+
+void ViewStage::handleKeys()
+{
+}
+
+void ViewStage::stageDraw()
+{
+    UpdateMusicStream(game->musics.at("bg"));
+}
+
+void ViewStage::onBlinkingDone()
+{
+}
+
+void ViewStage::cleanUp()
+{
     Stage::cleanUp();
 }

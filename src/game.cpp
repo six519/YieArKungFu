@@ -24,6 +24,7 @@ Game::Game()
 
     // initialize stages
     titleStage = new TitleStage(this);
+    viewStage = new ViewStage(this);
 
     SetTargetFPS(TARGET_FPS);
 }
@@ -42,6 +43,10 @@ void Game::cleanUp()
         UnloadMusicStream(musics.at(name));
     }
 
+    // unload render textures on stages
+    titleStage->unloadTexture();
+    viewStage->unloadTexture();
+
     // other raylib cleanups
     CloseAudioDevice();
 }
@@ -56,6 +61,7 @@ void Game::run()
         switch(state)
         {
             case STAGE_VIEW:
+                viewStage->run();
                 break;
             default:
                 titleStage->run();

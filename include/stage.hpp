@@ -17,6 +17,7 @@ class Stage
         virtual void handleKeys()=0;
         virtual void stageDraw()=0;
         virtual void init()=0;
+        virtual void onBlinkingDone()=0;
         Game *game;
         bool initialized;
         RenderTexture2D renderTexture;
@@ -28,6 +29,7 @@ class Stage
         void run();
         void drawText(string text, int x, int y, bool blink);
         virtual void cleanUp()=0;
+        void unloadTexture();
 };
 
 class TitleStage: public Stage {
@@ -36,7 +38,21 @@ class TitleStage: public Stage {
         void handleKeys();
         void stageDraw();
         void init();
+        void onBlinkingDone();
         bool blinkEnter = false;
+        int maxBlink = 4;
+        int blinkCount = 0;
+    public:
+        void cleanUp();
+};
+
+class ViewStage: public Stage {
+    using Stage::Stage;
+    protected:
+        void handleKeys();
+        void stageDraw();
+        void init();
+        void onBlinkingDone();
     public:
         void cleanUp();
 };

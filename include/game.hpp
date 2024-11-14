@@ -10,11 +10,13 @@
 using namespace std;
 
 class TitleStage;
+class ViewStage;
 
 class Game
 {
     private:
         TitleStage *titleStage;
+        ViewStage *viewStage;
         void cleanUp();
         void loadSprite(string name);
         void loadMusic(string name);
