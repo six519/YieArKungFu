@@ -24,13 +24,15 @@ class Sprite
         void draw();
         void drawByIndex(int index);
         void setTileCount(int count);
+        void flipHorizontal();
 };
 
 const vector<string> SpriteImages = {
     "title",
     "konami_logo",
     "letters",
-    "game_bg"
+    "game_bg",
+    "player_normal"
 };
 
 const string CopyrightText = "* 1985 konami";

@@ -5,6 +5,7 @@ Sprite::Sprite(string imagePath)
     texture = LoadTexture(imagePath.c_str());
     x = 0;
     y = 0;
+    frameRect = (Rectangle){ 0.0, 0.0, (float)texture.width, (float)texture.height };
 }
 
 void Sprite::unload()
@@ -14,7 +15,7 @@ void Sprite::unload()
 
 void Sprite::draw()
 {
-    DrawTexture(texture, x, y, WHITE);
+    DrawTextureRec(texture, frameRect, (Vector2){ (float)x,(float)y }, WHITE);
 }
 
 void Sprite::setTileCount(int count)
@@ -26,10 +27,15 @@ void Sprite::setTileCount(int count)
 void Sprite::drawByIndex(int ind)
 {
     frameRect.x = (float)ind*(float)texture.width/tileCount;
-    DrawTextureRec(texture, frameRect, (Vector2){ (float)x,(float)y }, WHITE);
+    draw();
 }
 
 Texture2D Sprite::getTexture()
 {
     return texture;
+}
+
+void Sprite::flipHorizontal()
+{
+    frameRect.width = -frameRect.width;
 }
