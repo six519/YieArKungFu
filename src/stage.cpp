@@ -177,6 +177,12 @@ void ViewStage::handleKeys()
 void ViewStage::stageDraw()
 {
     UpdateMusicStream(game->musics.at("bg"));
+    drawText(
+        "stage 0" + to_string(game->stage), 
+        (GAME_WIDTH / 2) - ((8 * LETTER_WIDTH) / 2), 
+        (GAME_HEIGHT / 2) - (LETTER_WIDTH / 2), 
+        false
+    );
 }
 
 void ViewStage::onBlinkingDone()
