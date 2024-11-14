@@ -16,11 +16,13 @@ class Stage
         Game *game;
         bool initialized;
         RenderTexture2D renderTexture;
+        map<string, int> framesCounter;
+        map<string, int> currentFrame;
     public:
         Stage(Game *gm);
         void draw();
         void run();
-        void drawText(string text, int x, int y);
+        void drawText(string text, int x, int y, bool blink);
         virtual void cleanUp()=0;
 };
 
@@ -30,6 +32,7 @@ class TitleStage: public Stage {
         void handleKeys();
         void stageDraw();
         void init();
+        bool blinkEnter = false;
     public:
         void cleanUp();
 };

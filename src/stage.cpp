@@ -48,20 +48,59 @@ void Stage::draw()
     EndDrawing();
 }
 
-void Stage::drawText(string text, int x, int y)
+void Stage::drawText(string text, int x, int y, bool blink)
 {
+
+    if (currentFrame.count(text) == 0)
+    {
+        // add to map
+        currentFrame.insert({text, 0});
+        framesCounter.insert({text, 0});
+    }
+
     game->sprites.at("letters").x = x;
     game->sprites.at("letters").y = y;
+
+    if (blink)
+    {
+        framesCounter.at(text)++;
+        if (framesCounter.at(text) >= (TARGET_FPS / FRAME_SPEED))
+        {
+            framesCounter.at(text) = 0;
+            currentFrame.at(text)++;
+
+            if (currentFrame.at(text) > 1)
+            {
+                currentFrame.at(text) = 0;
+            }
+        }
+    }
 
     for (size_t i = 0; i < text.size(); i++)
     {
         auto it = find(SpriteLetters.begin(), SpriteLetters.end(), text[i]);
+        if (it == SpriteLetters.end())
+        {
+            return;
+        }
 
-        if (it != SpriteLetters.end())
+        if (!blink)
         {
             game->sprites.at("letters").drawByIndex(distance(SpriteLetters.begin(), it));
             game->sprites.at("letters").x += LETTER_WIDTH;
+            continue;
         }
+
+        //blinking
+        if (currentFrame.at(text) == 1)
+        {
+            game->sprites.at("letters").drawByIndex(distance(SpriteLetters.begin(), it));
+            game->sprites.at("letters").x += LETTER_WIDTH;
+            continue;
+        }
+
+        game->sprites.at("letters").drawByIndex(SpriteLetters.size() - 2);
+        game->sprites.at("letters").x += LETTER_WIDTH;
     }
 }
 
@@ -77,9 +116,9 @@ void TitleStage::init()
 
 void TitleStage::handleKeys()
 {
-    if(IsKeyDown(KEY_ENTER))
+    if(IsKeyDown(KEY_ENTER) && !blinkEnter)
     {
-        //initialized = false;
+        blinkEnter = true;
         //this->cleanUp();
     }
 }
@@ -90,14 +129,16 @@ void TitleStage::stageDraw()
     game->sprites.at("title").draw();
 
     //draw copyright text
-    drawText(CopyrightText, (GAME_WIDTH / 2) - ((CopyrightText.size() * LETTER_WIDTH) / 2), 110);
-    drawText(OtherText, (GAME_WIDTH / 2) - ((OtherText.size() * LETTER_WIDTH) / 2), 120);
+    drawText(CopyrightText, (GAME_WIDTH / 2) - ((CopyrightText.size() * LETTER_WIDTH) / 2), 110, false);
+    drawText(OtherText, (GAME_WIDTH / 2) - ((OtherText.size() * LETTER_WIDTH) / 2), 120, false);
 
     // press enter to start
-    drawText(ToStartText, (GAME_WIDTH / 2) - ((ToStartText.size() * LETTER_WIDTH) / 2), 165);
+    drawText(ToStartText, (GAME_WIDTH / 2) - ((ToStartText.size() * LETTER_WIDTH) / 2), 165, blinkEnter);
 }
 
 void TitleStage::cleanUp()
 {
+    initialized = false;
+    blinkEnter = false;
     Stage::cleanUp();
 }
