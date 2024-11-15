@@ -262,6 +262,8 @@ void GameStage::stageDraw()
     // background is the last to draw
     game->sprites.at("game_bg").draw();
 
+    drawText(OtherText, (GAME_WIDTH / 2) - ((OtherText.size() * LETTER_WIDTH) / 2), 24, false);
+
     game->player->play();
 }
 
