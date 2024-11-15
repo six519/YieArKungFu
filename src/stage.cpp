@@ -3,9 +3,7 @@
 Stage::Stage(Game *gm)
 {
     game = gm;
-    initialized = false;
-    timeSeconds = 0;
-    timeCounter = 0;
+    Stage::cleanUp();
     renderTexture = LoadRenderTexture(GAME_WIDTH, GAME_HEIGHT);
 };
 
@@ -112,23 +110,6 @@ void Stage::drawText(string text, int x, int y, bool blink)
 
         game->sprites.at("letters").drawByIndex(SpriteLetters.size() - 2);
         game->sprites.at("letters").x += LETTER_WIDTH;
-    }
-}
-
-void Stage::timeTick()
-{
-    timeCounter++;
-    if (timeCounter >= (TARGET_FPS / FRAME_SPEED))
-    {
-        timeCounter = 0;
-        if (timeSeconds == 59)
-        {
-            timeSeconds = 0;
-            this->onTimeTick();
-            return;
-        }
-        timeSeconds += 1;
-        this->onTimeTick();
     }
 }
 

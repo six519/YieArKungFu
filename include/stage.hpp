@@ -7,27 +7,24 @@
 #define STAGE_BOUNDARY 15
 
 #include "game.hpp"
+#include "timer.hpp"
 
 using namespace std;
 
 class Game;
 
-class Stage
+class Stage: public Timer
 {
     protected:
         virtual void handleKeys()=0;
         virtual void stageDraw()=0;
         virtual void init()=0;
         virtual void onBlinkingDone()=0;
-        virtual void onTimeTick()=0;
         Game *game;
         bool initialized;
         RenderTexture2D renderTexture;
         map<string, int> framesCounter;
         map<string, int> currentFrame;
-        int timeCounter;
-        int timeSeconds;
-        void timeTick();
     public:
         Stage(Game *gm);
         void draw();
