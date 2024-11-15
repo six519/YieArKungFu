@@ -223,7 +223,37 @@ void ViewStage::onTimeTick()
 
 void GameStage::init(){}
 
-void GameStage::handleKeys(){}
+void GameStage::handleKeys(){
+    // making sure that it will be executed only on a specific state
+    if (game->state == STAGE_GAME)
+    {
+        if (IsKeyDown(KEY_LEFT) && game->player->x > STAGE_BOUNDARY)
+        {
+            game->player->currentMovement = PLAYER_LEFT;
+            game->player->x -= PLAYER_SPEED;
+        }
+        else if (IsKeyDown(KEY_LEFT) && game->player->x <= STAGE_BOUNDARY)
+        {
+            game->player->currentMovement = PLAYER_IDLE;
+        }
+        else if(IsKeyReleased(KEY_LEFT))
+        {
+            game->player->currentMovement = PLAYER_IDLE;
+        } else if (IsKeyDown(KEY_RIGHT) && game->player->x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
+        {
+            game->player->currentMovement = PLAYER_RIGHT;
+            game->player->x += PLAYER_SPEED;
+        }
+        else if(IsKeyDown(KEY_RIGHT) && game->player->x >= (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
+        {
+            game->player->currentMovement = PLAYER_IDLE_2;
+        }
+        else if(IsKeyReleased(KEY_RIGHT))
+        {
+            game->player->currentMovement = PLAYER_IDLE;
+        }
+    }
+}
 
 void GameStage::stageDraw()
 {
@@ -239,6 +269,7 @@ void GameStage::onBlinkingDone(){}
 
 void GameStage::cleanUp()
 {
+    game->player->clear();
     Stage::cleanUp();
 }
 

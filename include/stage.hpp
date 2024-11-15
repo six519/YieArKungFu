@@ -4,6 +4,7 @@
 #define STAGE_START 0
 #define STAGE_VIEW 1
 #define STAGE_GAME 2
+#define STAGE_BOUNDARY 15
 
 #include "game.hpp"
 

@@ -2,12 +2,14 @@
 #define _PLAYER_H_
 
 #define PLAYER_IDLE 0
-#define PLAYER_LEFT 1
-#define PLAYER_RIGHT 2
+#define PLAYER_IDLE_2 1
+#define PLAYER_LEFT 2
+#define PLAYER_RIGHT 3
 #define PLAYER_SPEED 1
 #define PLAYER_FRAME_SPEED 15
 #define PLAYER_DEFAULT_X 40
 #define PLAYER_DEFAULT_Y 160
+#define PLAYER_DEFAULT_LIVES 2
 
 #include "game.hpp"
 
@@ -20,9 +22,10 @@ class Player
     public:
         int x;
         int y;
+        int lives;
         int currentMovement;
         Player(Game *gm);
-        void unload();
+        void clear();
         void play();
 };
 
