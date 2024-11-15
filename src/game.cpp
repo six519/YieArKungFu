@@ -23,6 +23,12 @@ Game::Game()
         loadMusic(name);
     }
 
+    // initialize sounds
+    for (auto& name : SoundsList)
+    {
+        loadSound(name);
+    }
+
     // initialize stages
     titleStage = new TitleStage(this);
     viewStage = new ViewStage(this);
@@ -46,6 +52,12 @@ void Game::cleanUp()
     for (auto& name : MusicsList)
     {
         UnloadMusicStream(musics.at(name));
+    }
+
+    // unload sounds
+    for (auto& name : SoundsList)
+    {
+        UnloadSound(sounds.at(name));
     }
 
     // unload render textures on stages
@@ -90,4 +102,9 @@ void Game::loadSprite(string name)
 void Game::loadMusic(string name)
 {
     musics.insert({name, LoadMusicStream(("assets/musics/" + name + ".mp3").c_str())});
+}
+
+void Game::loadSound(string name)
+{
+    sounds.insert({name, LoadSound(("assets/sounds/" + name + ".wav").c_str())});
 }

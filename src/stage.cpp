@@ -244,6 +244,7 @@ void GameStage::handleKeys(){
         
         if(IsKeyDown(KEY_A) && game->player->canStandPunch)
         {
+            PlaySound(game->sounds.at("attack"));
             game->player->currentMovement = PLAYER_STAND_PUNCH;
             game->player->inputDisabled = true;
             game->player->canStandPunch = false;

@@ -24,18 +24,24 @@ class Game
         void cleanUp();
         void loadSprite(string name);
         void loadMusic(string name);
+        void loadSound(string name);
     public:
         int state;
         int stage;
         Player *player;
         map<string, Sprite> sprites;
         map<string, Music> musics;
+        map<string, Sound> sounds;
         Game();
         void run();
 };
 
 const vector<string> MusicsList = {
     "bg"
+};
+
+const vector<string> SoundsList = {
+    "attack"
 };
 
 #endif
