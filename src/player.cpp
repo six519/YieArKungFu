@@ -15,6 +15,7 @@ void Player::clear()
     x = PLAYER_DEFAULT_X;
     y = PLAYER_DEFAULT_Y;
     lives = PLAYER_DEFAULT_LIVES;
+    inputDisabled = false;
 }
 
 void Player::setSpritesCoordinates()
@@ -43,6 +44,9 @@ void Player::play()
         break;
     case PLAYER_IDLE_2:
         game->sprites.at("player_normal").drawByIndex(1);
+        break;
+    case PLAYER_STAND_PUNCH:
+        game->sprites.at("player_stand_punch").draw();
         break;
     default:
         //PLAYER_IDLE

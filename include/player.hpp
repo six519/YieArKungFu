@@ -6,6 +6,7 @@
 #define PLAYER_LEFT 2
 #define PLAYER_RIGHT 3
 #define PLAYER_DOWN 4
+#define PLAYER_STAND_PUNCH 5
 #define PLAYER_SPEED 1
 #define PLAYER_FRAME_SPEED 15
 #define PLAYER_DEFAULT_X 40
@@ -27,6 +28,7 @@ class Player
         int y;
         int lives;
         int currentMovement;
+        bool inputDisabled;
         Player(Game *gm);
         void clear();
         void play();
@@ -34,7 +36,8 @@ class Player
 
 const vector<string> PlayerSprites = {
     "player_normal",
-    "player_down"
+    "player_down",
+    "player_stand_punch"
 };
 
 #endif

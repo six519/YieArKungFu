@@ -225,7 +225,7 @@ void GameStage::init(){}
 
 void GameStage::handleKeys(){
     // making sure that it will be executed only on a specific state
-    if (game->state == STAGE_GAME)
+    if (game->state == STAGE_GAME && !game->player->inputDisabled)
     {
         if (IsKeyDown(KEY_LEFT) && game->player->x > STAGE_BOUNDARY)
         {
@@ -258,6 +258,12 @@ void GameStage::handleKeys(){
         else if(IsKeyReleased(KEY_DOWN))
         {
             game->player->currentMovement = PLAYER_IDLE;
+        }
+        
+        if(IsKeyDown(KEY_A))
+        {
+            game->player->currentMovement = PLAYER_STAND_PUNCH;
+            game->player->inputDisabled = true;
         }
     }
 }
