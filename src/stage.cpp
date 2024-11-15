@@ -14,6 +14,7 @@ void Stage::run()
         initialized = true;
     }
     this->timeTick();
+    game->player->timeTick();
     this->draw();
     this->handleKeys();
 }
@@ -241,10 +242,19 @@ void GameStage::handleKeys(){
             game->player->currentMovement = PLAYER_IDLE;
         }
         
-        if(IsKeyDown(KEY_A))
+        if(IsKeyDown(KEY_A) && game->player->canStandPunch)
         {
             game->player->currentMovement = PLAYER_STAND_PUNCH;
             game->player->inputDisabled = true;
+            game->player->canStandPunch = false;
+        }
+    }
+
+    if (game->state == STAGE_GAME)
+    {
+        if(IsKeyReleased(KEY_A))
+        {
+            game->player->canStandPunch = true;
         }
     }
 }

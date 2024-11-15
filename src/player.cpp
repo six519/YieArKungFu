@@ -16,6 +16,8 @@ void Player::clear()
     y = PLAYER_DEFAULT_Y;
     lives = PLAYER_DEFAULT_LIVES;
     inputDisabled = false;
+    haltTime = 0;
+    canStandPunch = true;
 }
 
 void Player::setSpritesCoordinates()
@@ -52,5 +54,20 @@ void Player::play()
         //PLAYER_IDLE
         game->sprites.at("player_normal").drawByIndex(0);
         break;
+    }
+}
+
+void Player::onTimeTick()
+{
+    if (inputDisabled)
+    {
+        haltTime += 1;
+
+        if (haltTime == 3)
+        {
+            inputDisabled = false;
+            currentMovement = PLAYER_IDLE;
+            haltTime = 0;
+        }
     }
 }

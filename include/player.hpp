@@ -14,21 +14,25 @@
 #define PLAYER_DEFAULT_LIVES 2
 
 #include "game.hpp"
+#include "timer.hpp"
 
 class Game;
 
-class Player
+class Player: public Timer
 {
     private:
+        int haltTime;
         void setSpritesCoordinates();
     protected:
         Game *game;
+        void onTimeTick();
     public:
         int x;
         int y;
         int lives;
         int currentMovement;
         bool inputDisabled;
+        bool canStandPunch;
         Player(Game *gm);
         void clear();
         void play();
