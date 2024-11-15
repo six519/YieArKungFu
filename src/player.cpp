@@ -17,10 +17,18 @@ void Player::clear()
     lives = PLAYER_DEFAULT_LIVES;
 }
 
+void Player::setSpritesCoordinates()
+{
+    for (auto& name : PlayerSprites)
+    {
+        game->sprites.at(name).x = x;
+        game->sprites.at(name).y = y;
+    }
+}
+
 void Player::play()
 {
-    game->sprites.at("player_normal").x = x;
-    game->sprites.at("player_normal").y = y;
+    setSpritesCoordinates();
 
     switch (currentMovement)
     {
@@ -29,6 +37,9 @@ void Player::play()
         break;
     case PLAYER_RIGHT:
         game->sprites.at("player_normal").play();
+        break;
+    case PLAYER_DOWN:
+        game->sprites.at("player_down").draw();
         break;
     case PLAYER_IDLE_2:
         game->sprites.at("player_normal").drawByIndex(1);

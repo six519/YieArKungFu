@@ -251,6 +251,13 @@ void GameStage::handleKeys(){
         else if(IsKeyReleased(KEY_RIGHT))
         {
             game->player->currentMovement = PLAYER_IDLE;
+        }else if (IsKeyDown(KEY_DOWN))
+        {
+            game->player->currentMovement = PLAYER_DOWN;
+        }
+        else if(IsKeyReleased(KEY_DOWN))
+        {
+            game->player->currentMovement = PLAYER_IDLE;
         }
     }
 }

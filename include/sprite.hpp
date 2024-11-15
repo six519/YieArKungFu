@@ -38,7 +38,8 @@ const vector<string> SpriteImages = {
     "konami_logo",
     "letters",
     "game_bg",
-    "player_normal"
+    "player_normal",
+    "player_down"
 };
 
 const string CopyrightText = "* 1985 konami";
