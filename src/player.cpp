@@ -11,13 +11,14 @@ Player::Player(Game *gm)
 
 void Player::clear()
 {
-    currentMovement = PLAYER_IDLE;
+    setMovement(PLAYER_IDLE);
     x = PLAYER_DEFAULT_X;
     y = PLAYER_DEFAULT_Y;
     lives = PLAYER_DEFAULT_LIVES;
     inputDisabled = false;
     haltTime = 0;
-    canStandPunch = true;
+    canAttack = true;
+    lastMovement = PLAYER_NONE;
 }
 
 void Player::setSpritesCoordinates()
@@ -50,6 +51,9 @@ void Player::play()
     case PLAYER_STAND_PUNCH:
         game->sprites.at("player_stand_punch").draw();
         break;
+    case PLAYER_SIT_PUNCH:
+        game->sprites.at("player_sit_punch").draw();
+        break;
     default:
         //PLAYER_IDLE
         game->sprites.at("player_normal").drawByIndex(0);
@@ -66,8 +70,21 @@ void Player::onTimeTick()
         if (haltTime == 3)
         {
             inputDisabled = false;
-            currentMovement = PLAYER_IDLE;
             haltTime = 0;
+
+            if (lastMovement == PLAYER_DOWN && IsKeyDown(KEY_DOWN))
+            {
+                setMovement(PLAYER_DOWN);
+                return;
+            }
+
+            setMovement(PLAYER_IDLE);
         }
     }
+}
+
+void Player::setMovement(int move)
+{
+    lastMovement = currentMovement;
+    currentMovement = move;
 }

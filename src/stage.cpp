@@ -211,43 +211,43 @@ void GameStage::handleKeys(){
     {
         if (IsKeyDown(KEY_LEFT) && game->player->x > STAGE_BOUNDARY)
         {
-            game->player->currentMovement = PLAYER_LEFT;
+            game->player->setMovement(PLAYER_LEFT);
             game->player->x -= PLAYER_SPEED;
         }
         else if (IsKeyDown(KEY_LEFT) && game->player->x <= STAGE_BOUNDARY)
         {
-            game->player->currentMovement = PLAYER_IDLE;
+            game->player->setMovement(PLAYER_IDLE);
         }
         else if(IsKeyReleased(KEY_LEFT))
         {
-            game->player->currentMovement = PLAYER_IDLE;
+            game->player->setMovement(PLAYER_IDLE);
         } else if (IsKeyDown(KEY_RIGHT) && game->player->x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
         {
-            game->player->currentMovement = PLAYER_RIGHT;
+            game->player->setMovement(PLAYER_RIGHT);
             game->player->x += PLAYER_SPEED;
         }
         else if(IsKeyDown(KEY_RIGHT) && game->player->x >= (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
         {
-            game->player->currentMovement = PLAYER_IDLE_2;
+            game->player->setMovement(PLAYER_IDLE_2);
         }
         else if(IsKeyReleased(KEY_RIGHT))
         {
-            game->player->currentMovement = PLAYER_IDLE;
+            game->player->setMovement(PLAYER_IDLE);
         }else if (IsKeyDown(KEY_DOWN))
         {
-            game->player->currentMovement = PLAYER_DOWN;
+            game->player->setMovement(PLAYER_DOWN);
         }
         else if(IsKeyReleased(KEY_DOWN))
         {
-            game->player->currentMovement = PLAYER_IDLE;
+            game->player->setMovement(PLAYER_IDLE);
         }
         
-        if(IsKeyDown(KEY_A) && game->player->canStandPunch)
+        if(IsKeyDown(KEY_A) && game->player->canAttack)
         {
             PlaySound(game->sounds.at("attack"));
-            game->player->currentMovement = PLAYER_STAND_PUNCH;
             game->player->inputDisabled = true;
-            game->player->canStandPunch = false;
+            game->player->canAttack = false;
+            game->player->setMovement((IsKeyDown(KEY_DOWN))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH);
         }
     }
 
@@ -255,7 +255,7 @@ void GameStage::handleKeys(){
     {
         if(IsKeyReleased(KEY_A))
         {
-            game->player->canStandPunch = true;
+            game->player->canAttack = true;
         }
     }
 }
