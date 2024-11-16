@@ -9,6 +9,8 @@
 #define PLAYER_DOWN 4
 #define PLAYER_STAND_PUNCH 5
 #define PLAYER_SIT_PUNCH 6
+#define PLAYER_STAND_KICK 7
+#define PLAYER_SIT_KICK 8
 #define PLAYER_SPEED 1
 #define PLAYER_FRAME_SPEED 15
 #define PLAYER_DEFAULT_X 40
@@ -46,7 +48,9 @@ const vector<string> PlayerSprites = {
     "player_normal",
     "player_down",
     "player_stand_punch",
-    "player_sit_punch"
+    "player_sit_punch",
+    "player_stand_kick",
+    "player_sit_kick"
 };
 
 #endif

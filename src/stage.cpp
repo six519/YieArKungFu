@@ -249,14 +249,19 @@ void GameStage::handleKeys(){
             game->player->canAttack = false;
             game->player->setMovement((IsKeyDown(KEY_DOWN))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH);
         }
+
+        if(IsKeyDown(KEY_S) && game->player->canAttack)
+        {
+            PlaySound(game->sounds.at("attack"));
+            game->player->inputDisabled = true;
+            game->player->canAttack = false;
+            game->player->setMovement((IsKeyDown(KEY_DOWN))? PLAYER_SIT_KICK : PLAYER_STAND_KICK);
+        }
     }
 
-    if (game->state == STAGE_GAME)
+    if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)))
     {
-        if(IsKeyReleased(KEY_A))
-        {
-            game->player->canAttack = true;
-        }
+        game->player->canAttack = true;
     }
 }
 

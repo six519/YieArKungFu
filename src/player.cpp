@@ -54,6 +54,12 @@ void Player::play()
     case PLAYER_SIT_PUNCH:
         game->sprites.at("player_sit_punch").draw();
         break;
+    case PLAYER_STAND_KICK:
+        game->sprites.at("player_stand_kick").draw();
+        break;
+    case PLAYER_SIT_KICK:
+        game->sprites.at("player_sit_kick").draw();
+        break;
     default:
         //PLAYER_IDLE
         game->sprites.at("player_normal").drawByIndex(0);
