@@ -12,7 +12,7 @@
 #define PLAYER_SPEED 1
 #define PLAYER_FRAME_SPEED 15
 #define PLAYER_DEFAULT_X 40
-#define PLAYER_DEFAULT_Y 160
+#define PLAYER_DEFAULT_Y 159
 #define PLAYER_DEFAULT_LIVES 2
 
 #include "game.hpp"
