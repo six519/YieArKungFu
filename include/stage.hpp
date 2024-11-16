@@ -34,7 +34,8 @@ class Stage: public Timer
         void unloadTexture();
 };
 
-class TitleStage: public Stage {
+class TitleStage: public Stage 
+{
     using Stage::Stage;
     protected:
         void handleKeys();
@@ -49,7 +50,8 @@ class TitleStage: public Stage {
         void cleanUp();
 };
 
-class ViewStage: public Stage {
+class ViewStage: public Stage 
+{
     using Stage::Stage;
     protected:
         void handleKeys();
@@ -61,7 +63,8 @@ class ViewStage: public Stage {
         void cleanUp();
 };
 
-class GameStage: public Stage {
+class GameStage: public Stage 
+{
     using Stage::Stage;
     protected:
         void handleKeys();

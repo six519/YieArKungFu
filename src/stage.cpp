@@ -205,7 +205,8 @@ void ViewStage::onTimeTick()
 
 void GameStage::init(){}
 
-void GameStage::handleKeys(){
+void GameStage::handleKeys()
+{
     game->player->handleKeys();
 }
 
