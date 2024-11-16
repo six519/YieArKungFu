@@ -112,7 +112,8 @@ void Player::handleKeys()
         else if(IsKeyReleased(KEY_LEFT))
         {
             setMovement(PLAYER_IDLE);
-        } else if (IsKeyDown(KEY_RIGHT) && x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
+        }
+        else if (IsKeyDown(KEY_RIGHT) && x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
         {
             setMovement(PLAYER_RIGHT);
             x += PLAYER_SPEED;
@@ -124,7 +125,8 @@ void Player::handleKeys()
         else if(IsKeyReleased(KEY_RIGHT))
         {
             setMovement(PLAYER_IDLE);
-        }else if (IsKeyDown(KEY_DOWN))
+        }
+        else if (IsKeyDown(KEY_DOWN))
         {
             setMovement(PLAYER_DOWN);
         }
@@ -132,26 +134,31 @@ void Player::handleKeys()
         {
             setMovement(PLAYER_IDLE);
         }
-        
-        if(IsKeyDown(KEY_A) && canAttack)
-        {
-            PlaySound(game->sounds.at("attack"));
-            inputDisabled = true;
-            canAttack = false;
-            setMovement((IsKeyDown(KEY_DOWN))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH);
-        }
 
-        if(IsKeyDown(KEY_S) && canAttack)
-        {
-            PlaySound(game->sounds.at("attack"));
-            inputDisabled = true;
-            canAttack = false;
-            setMovement((IsKeyDown(KEY_DOWN))? PLAYER_SIT_KICK : PLAYER_STAND_KICK);
-        }
+        handleAttack(
+            (IsKeyDown(KEY_A) && canAttack),
+            ((IsKeyDown(KEY_DOWN))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH)
+        );
+        
+        handleAttack(
+            (IsKeyDown(KEY_S) && canAttack),
+            ((IsKeyDown(KEY_DOWN))? PLAYER_SIT_KICK : PLAYER_STAND_KICK)
+        );
     }
 
     if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)))
     {
         canAttack = true;
+    }
+}
+
+void Player::handleAttack(bool condition, int movement)
+{
+    if(condition)
+    {
+        PlaySound(game->sounds.at("attack"));
+        inputDisabled = true;
+        canAttack = false;
+        setMovement(movement);
     }
 }

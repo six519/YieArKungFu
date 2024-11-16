@@ -43,6 +43,7 @@ class Player: public Timer
         void play();
         void setMovement(int move);
         void handleKeys();
+        void handleAttack(bool condition, int movement);
 };
 
 const vector<string> PlayerSprites = {
