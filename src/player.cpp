@@ -60,6 +60,9 @@ void Player::play()
     case PLAYER_SIT_KICK:
         game->sprites.at("player_sit_kick").draw();
         break;
+    case PLAYER_HIGH_KICK:
+        game->sprites.at("player_high_kick").draw();
+        break;
     default:
         //PLAYER_IDLE
         game->sprites.at("player_normal").drawByIndex(0);
@@ -140,6 +143,11 @@ void Player::handleKeys()
             ((IsKeyDown(KEY_DOWN))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH)
         );
         
+        handleAttack(
+            (IsKeyDown(KEY_S) && canAttack && (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))),
+            PLAYER_HIGH_KICK
+        );
+
         handleAttack(
             (IsKeyDown(KEY_S) && canAttack),
             ((IsKeyDown(KEY_DOWN))? PLAYER_SIT_KICK : PLAYER_STAND_KICK)

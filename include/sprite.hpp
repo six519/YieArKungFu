@@ -43,7 +43,8 @@ const vector<string> SpriteImages = {
     "player_stand_punch",
     "player_sit_punch",
     "player_stand_kick",
-    "player_sit_kick"
+    "player_sit_kick",
+    "player_high_kick"
 };
 
 const string CopyrightText = "* 1985 konami";
