@@ -42,6 +42,7 @@ class Player: public Timer
         void clear();
         void play();
         void setMovement(int move);
+        void handleKeys();
 };
 
 const vector<string> PlayerSprites = {

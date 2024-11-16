@@ -206,63 +206,7 @@ void ViewStage::onTimeTick()
 void GameStage::init(){}
 
 void GameStage::handleKeys(){
-    // making sure that it will be executed only on a specific state
-    if (game->state == STAGE_GAME && !game->player->inputDisabled)
-    {
-        if (IsKeyDown(KEY_LEFT) && game->player->x > STAGE_BOUNDARY)
-        {
-            game->player->setMovement(PLAYER_LEFT);
-            game->player->x -= PLAYER_SPEED;
-        }
-        else if (IsKeyDown(KEY_LEFT) && game->player->x <= STAGE_BOUNDARY)
-        {
-            game->player->setMovement(PLAYER_IDLE);
-        }
-        else if(IsKeyReleased(KEY_LEFT))
-        {
-            game->player->setMovement(PLAYER_IDLE);
-        } else if (IsKeyDown(KEY_RIGHT) && game->player->x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
-        {
-            game->player->setMovement(PLAYER_RIGHT);
-            game->player->x += PLAYER_SPEED;
-        }
-        else if(IsKeyDown(KEY_RIGHT) && game->player->x >= (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
-        {
-            game->player->setMovement(PLAYER_IDLE_2);
-        }
-        else if(IsKeyReleased(KEY_RIGHT))
-        {
-            game->player->setMovement(PLAYER_IDLE);
-        }else if (IsKeyDown(KEY_DOWN))
-        {
-            game->player->setMovement(PLAYER_DOWN);
-        }
-        else if(IsKeyReleased(KEY_DOWN))
-        {
-            game->player->setMovement(PLAYER_IDLE);
-        }
-        
-        if(IsKeyDown(KEY_A) && game->player->canAttack)
-        {
-            PlaySound(game->sounds.at("attack"));
-            game->player->inputDisabled = true;
-            game->player->canAttack = false;
-            game->player->setMovement((IsKeyDown(KEY_DOWN))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH);
-        }
-
-        if(IsKeyDown(KEY_S) && game->player->canAttack)
-        {
-            PlaySound(game->sounds.at("attack"));
-            game->player->inputDisabled = true;
-            game->player->canAttack = false;
-            game->player->setMovement((IsKeyDown(KEY_DOWN))? PLAYER_SIT_KICK : PLAYER_STAND_KICK);
-        }
-    }
-
-    if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)))
-    {
-        game->player->canAttack = true;
-    }
+    game->player->handleKeys();
 }
 
 void GameStage::stageDraw()
