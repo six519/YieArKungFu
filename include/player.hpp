@@ -22,6 +22,9 @@
 #define PLAYER_JUMP_HEIGHT 115
 #define PLAYER_JUMP_SPEED 4
 #define PLAYER_JUMP_ACCELERATION_FRAME_SPEED 31
+#define PLAYER_JUMP_TOWARDS_NONE 0
+#define PLAYER_JUMP_TOWARDS_LEFT 1
+#define PLAYER_JUMP_TOWARDS_RIGHT 2
 
 #include "game.hpp"
 #include "timer.hpp"
@@ -36,6 +39,7 @@ class Player: public Timer
         int lastMovement;
         int jumpFramesCounter = 0;
         int accelerationSpeed = 0;
+        int jumpTowards;
     protected:
         Game *game;
         void onTimeTick();
@@ -53,6 +57,7 @@ class Player: public Timer
         void handleKeys();
         void handleAttack(bool condition, int movement);
         void handleJump();
+        void handleTowardsJump();
 };
 
 const vector<string> PlayerSprites = {

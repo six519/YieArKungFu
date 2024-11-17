@@ -145,6 +145,18 @@ void Player::handleKeys()
         
         if (IsKeyDown(KEY_UP))
         {
+            jumpTowards = PLAYER_JUMP_TOWARDS_NONE;
+
+            if (IsKeyDown(KEY_LEFT))
+            {
+                jumpTowards = PLAYER_JUMP_TOWARDS_LEFT;
+            }
+
+            if (IsKeyDown(KEY_RIGHT))
+            {
+                jumpTowards = PLAYER_JUMP_TOWARDS_RIGHT;
+            }
+
             setMovement(PLAYER_UP);
             inputDisabled = true;
             accelerationSpeed = PLAYER_JUMP_ACCELERATION_FRAME_SPEED;
@@ -191,6 +203,8 @@ void Player::handleJump()
         if (jumpFramesCounter >= (TARGET_FPS / accelerationSpeed))
         {
             jumpFramesCounter = 0;
+            handleTowardsJump();
+
             if (currentMovement == PLAYER_UP)
             {
                 if (y > PLAYER_JUMP_HEIGHT)
@@ -215,5 +229,35 @@ void Player::handleJump()
             currentMovement = PLAYER_IDLE;
             inputDisabled = false;
         }
+    }
+}
+
+void Player::handleTowardsJump()
+{
+    if (jumpTowards == PLAYER_JUMP_TOWARDS_RIGHT)
+    {
+
+        if (x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
+        {
+            x += PLAYER_JUMP_SPEED;
+            return;
+        }
+
+        x = (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2);
+        jumpTowards = PLAYER_JUMP_TOWARDS_LEFT;
+        return;
+    }
+    
+    if(jumpTowards == PLAYER_JUMP_TOWARDS_LEFT)
+    {
+
+        if (x > STAGE_BOUNDARY)
+        {
+            x -= PLAYER_JUMP_SPEED;
+            return;
+        }
+
+        x = STAGE_BOUNDARY;
+        jumpTowards = PLAYER_JUMP_TOWARDS_RIGHT;
     }
 }
