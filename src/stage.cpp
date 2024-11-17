@@ -211,6 +211,10 @@ void GameStage::init()
 
     game->sprites.at("health_hud").y = 208;
     game->sprites.at("health_hud").x = (GAME_WIDTH / 2) - (game->sprites.at("health_hud").getTexture().width / 2);
+
+    game->sprites.at("health_green").y = 210;
+    game->sprites.at("health_red").y = 210;
+    villainHealth = DEFAULT_HEALTH;
 }
 
 void GameStage::handleKeys()
@@ -248,6 +252,27 @@ void GameStage::stageDraw()
 
     game->sprites.at("health_hud").draw();
 
+    game->sprites.at("health_green").x = 104;
+    game->sprites.at("health_red").x = 104;
+
+    //draw player's health gauge
+    for (int x = 0; x < game->player->health; x++)
+    {
+        game->sprites.at("health_green").draw();
+        game->sprites.at("health_green").x -= 8;
+    }
+
+    //draw villain's health gauge
+
+    game->sprites.at("health_green").x = 144;
+    game->sprites.at("health_red").x = 144;
+
+    for (int x = 0; x < villainHealth; x++)
+    {
+        game->sprites.at("health_green").draw();
+        game->sprites.at("health_green").x += 8;
+    }
+
     game->player->play();
 }
 
@@ -255,6 +280,7 @@ void GameStage::onBlinkingDone(){}
 
 void GameStage::cleanUp()
 {
+    villainHealth = DEFAULT_HEALTH;
     game->player->clear();
     Stage::cleanUp();
 }

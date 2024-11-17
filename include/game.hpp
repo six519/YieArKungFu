@@ -1,6 +1,9 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#define DEFAULT_HEALTH 9
+#define LOW_HEALTH = 4
+
 #include <map>
 #include <raylib.h>
 #include "settings.hpp"

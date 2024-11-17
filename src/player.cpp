@@ -20,7 +20,7 @@ void Player::clear()
     haltTimeJump = 0;
     canAttack = true;
     lastMovement = PLAYER_NONE;
-    health = PLAYER_DEFAULT_HEALTH;
+    health = DEFAULT_HEALTH;
 }
 
 void Player::setSpritesCoordinates()

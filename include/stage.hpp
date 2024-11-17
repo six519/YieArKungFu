@@ -74,6 +74,7 @@ class GameStage: public Stage
         void onTimeTick();
     public:
         void cleanUp();
+        int villainHealth;
 };
 
 const string Villains[] = {
