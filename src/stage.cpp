@@ -15,6 +15,7 @@ void Stage::run()
     }
     this->timeTick();
     game->player->timeTick();
+    game->player->handleJump();
     this->draw();
     this->handleKeys();
 }

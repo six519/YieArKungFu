@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include <iostream>
 
 Player::Player(Game *gm)
 {
@@ -43,6 +44,8 @@ void Player::play()
         game->sprites.at("player_normal").play();
         break;
     case PLAYER_DOWN:
+    case PLAYER_UP:
+    case PLAYER_COMING_DOWN:
         game->sprites.at("player_down").draw();
         break;
     case PLAYER_IDLE_2:
@@ -72,7 +75,9 @@ void Player::play()
 
 void Player::onTimeTick()
 {
-    if (inputDisabled)
+    if (
+        inputDisabled && currentMovement != PLAYER_UP && currentMovement != PLAYER_COMING_DOWN
+    )
     {
         haltTime += 1;
 
@@ -137,6 +142,12 @@ void Player::handleKeys()
         {
             setMovement(PLAYER_IDLE);
         }
+        else if (IsKeyDown(KEY_UP))
+        {
+            setMovement(PLAYER_UP);
+            inputDisabled = true;
+            accelerationSpeed = PLAYER_JUMP_ACCELERATION_FRAME_SPEED;
+        }
 
         handleAttack(
             (IsKeyDown(KEY_A) && canAttack),
@@ -168,5 +179,40 @@ void Player::handleAttack(bool condition, int movement)
         inputDisabled = true;
         canAttack = false;
         setMovement(movement);
+    }
+}
+
+void Player::handleJump()
+{
+    if (currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN)
+    {
+        jumpFramesCounter++;
+        if (jumpFramesCounter >= (TARGET_FPS / accelerationSpeed))
+        {
+            jumpFramesCounter = 0;
+            if (currentMovement == PLAYER_UP)
+            {
+                if (y > PLAYER_JUMP_HEIGHT)
+                {
+                    accelerationSpeed -= 1;
+                    y -= PLAYER_JUMP_SPEED;
+                    return;
+                }
+                currentMovement = PLAYER_COMING_DOWN;
+                accelerationSpeed = PLAYER_JUMP_ACCELERATION_FRAME_SPEED;
+                return;
+            }
+
+            if (y < PLAYER_DEFAULT_Y)
+            {
+                accelerationSpeed -= 1;
+                y += PLAYER_JUMP_SPEED;
+                return;
+            }
+
+            y = PLAYER_DEFAULT_Y;
+            currentMovement = PLAYER_IDLE;
+            inputDisabled = false;
+        }
     }
 }

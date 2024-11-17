@@ -12,11 +12,16 @@
 #define PLAYER_STAND_KICK 7
 #define PLAYER_SIT_KICK 8
 #define PLAYER_HIGH_KICK 9
+#define PLAYER_UP 10
+#define PLAYER_COMING_DOWN 11
 #define PLAYER_SPEED 1
 #define PLAYER_FRAME_SPEED 15
 #define PLAYER_DEFAULT_X 40
 #define PLAYER_DEFAULT_Y 159
 #define PLAYER_DEFAULT_LIVES 2
+#define PLAYER_JUMP_HEIGHT 115
+#define PLAYER_JUMP_SPEED 4
+#define PLAYER_JUMP_ACCELERATION_FRAME_SPEED 32
 
 #include "game.hpp"
 #include "timer.hpp"
@@ -29,6 +34,8 @@ class Player: public Timer
         int haltTime;
         void setSpritesCoordinates();
         int lastMovement;
+        int jumpFramesCounter = 0;
+        int accelerationSpeed = 0;
     protected:
         Game *game;
         void onTimeTick();
@@ -45,6 +52,7 @@ class Player: public Timer
         void setMovement(int move);
         void handleKeys();
         void handleAttack(bool condition, int movement);
+        void handleJump();
 };
 
 const vector<string> PlayerSprites = {
