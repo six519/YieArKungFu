@@ -142,7 +142,8 @@ void Player::handleKeys()
         {
             setMovement(PLAYER_IDLE);
         }
-        else if (IsKeyDown(KEY_UP))
+        
+        if (IsKeyDown(KEY_UP))
         {
             setMovement(PLAYER_UP);
             inputDisabled = true;
