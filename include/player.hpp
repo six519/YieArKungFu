@@ -19,6 +19,7 @@
 #define PLAYER_DEFAULT_X 40
 #define PLAYER_DEFAULT_Y 159
 #define PLAYER_DEFAULT_LIVES 2
+#define PLAYER_DEFAULT_HEALTH 9
 #define PLAYER_JUMP_HEIGHT 115
 #define PLAYER_JUMP_SPEED 2
 #define PLAYER_JUMP_ACCELERATION_FRAME_SPEED 55
@@ -36,6 +37,7 @@ class Player: public Timer
     private:
         int haltTime;
         int haltTimeJump;
+        int health;
         void setSpritesCoordinates();
         int lastMovement;
         int jumpFramesCounter = 0;

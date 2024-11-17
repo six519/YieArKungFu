@@ -204,7 +204,14 @@ void ViewStage::onTimeTick()
     }
 }
 
-void GameStage::init(){}
+void GameStage::init()
+{
+    game->sprites.at("life").y = 48;
+    game->sprites.at("life").x = 168;
+
+    game->sprites.at("health_hud").y = 208;
+    game->sprites.at("health_hud").x = (GAME_WIDTH / 2) - (game->sprites.at("health_hud").getTexture().width / 2);
+}
 
 void GameStage::handleKeys()
 {
@@ -230,9 +237,6 @@ void GameStage::stageDraw()
     drawText("score", 24, 40, false);
     drawText(to_string(game->score), 24, 48, false);
 
-    game->sprites.at("life").y = 48;
-    game->sprites.at("life").x = 168;
-
     for (int x = 0; x < game->player->lives; x++)
     {
         game->sprites.at("life").draw();
@@ -241,6 +245,8 @@ void GameStage::stageDraw()
 
     drawText("ferdie", 48, (GAME_HEIGHT - 24), false);
     drawText(Villains[game->stage - 1], (208 - (Villains[game->stage - 1].size() * 8)), (GAME_HEIGHT - 24), false);
+
+    game->sprites.at("health_hud").draw();
 
     game->player->play();
 }
