@@ -215,6 +215,8 @@ void GameStage::init()
     game->sprites.at("health_green").y = 210;
     game->sprites.at("health_red").y = 210;
     villainHealth = DEFAULT_HEALTH;
+    villainX = VILLAIN_DEFAULT_X;
+    villainY = VILLAIN_DEFAULT_Y;
 }
 
 void GameStage::handleKeys()
@@ -273,6 +275,10 @@ void GameStage::stageDraw()
         game->sprites.at("health_green").x += 8;
     }
 
+    // show villain
+    showVillain();
+
+    // show player
     game->player->play();
 }
 
@@ -281,8 +287,23 @@ void GameStage::onBlinkingDone(){}
 void GameStage::cleanUp()
 {
     villainHealth = DEFAULT_HEALTH;
+    villainX = VILLAIN_DEFAULT_X;
+    villainY = VILLAIN_DEFAULT_Y;
     game->player->clear();
     Stage::cleanUp();
 }
 
 void GameStage::onTimeTick(){}
+
+void GameStage::setVillainSpritesCoordinates()
+{
+    // TODO: Manual for now
+    game->sprites.at("wang_normal").x = villainX;
+    game->sprites.at("wang_normal").y = villainY;
+}
+
+void GameStage::showVillain()
+{
+    setVillainSpritesCoordinates();
+    game->sprites.at(Villains[game->stage - 1] + "_normal").drawByIndex(0);
+}

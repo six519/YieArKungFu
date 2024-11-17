@@ -6,6 +6,9 @@
 #define STAGE_GAME 2
 #define STAGE_BOUNDARY 15
 
+#define VILLAIN_DEFAULT_X 147
+#define VILLAIN_DEFAULT_Y 152
+
 #include "game.hpp"
 #include "timer.hpp"
 
@@ -75,6 +78,10 @@ class GameStage: public Stage
     public:
         void cleanUp();
         int villainHealth;
+        int villainX;
+        int villainY;
+        void setVillainSpritesCoordinates();
+        void showVillain();
 };
 
 const string Villains[] = {
