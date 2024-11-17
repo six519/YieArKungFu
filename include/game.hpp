@@ -28,6 +28,7 @@ class Game
     public:
         int state;
         int stage;
+        int score;
         Player *player;
         map<string, Sprite> sprites;
         map<string, Music> musics;

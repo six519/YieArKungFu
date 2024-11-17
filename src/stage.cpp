@@ -220,6 +220,25 @@ void GameStage::stageDraw()
 
     drawText(OtherText, (GAME_WIDTH / 2) - ((OtherText.size() * LETTER_WIDTH) / 2), 24, false);
 
+    drawText(
+        "stage-0" + to_string(game->stage), 
+        168, 
+        40, 
+        false
+    );
+
+    drawText("score", 24, 40, false);
+    drawText(to_string(game->score), 24, 48, false);
+
+    game->sprites.at("life").y = 48;
+    game->sprites.at("life").x = 168;
+
+    for (int x = 0; x < game->player->lives; x++)
+    {
+        game->sprites.at("life").draw();
+        game->sprites.at("life").x += 8;
+    }
+
     game->player->play();
 }
 

@@ -5,6 +5,7 @@ Game::Game()
 {
     state = 0;
     stage = 1;
+    score = 0;
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE);
     InitAudioDevice();
 
