@@ -239,7 +239,7 @@ void Player::handleJump()
                     y -= PLAYER_JUMP_SPEED;
                     return;
                 }
-                currentMovement = PLAYER_COMING_DOWN;
+                setMovement(PLAYER_COMING_DOWN);
                 accelerationSpeed = PLAYER_JUMP_ACCELERATION_FRAME_SPEED;
                 return;
             }
@@ -252,7 +252,7 @@ void Player::handleJump()
             }
 
             y = PLAYER_DEFAULT_Y;
-            currentMovement = PLAYER_IDLE;
+            setMovement(PLAYER_IDLE);
             isFlyingKick = false;
             inputDisabled = false;
             canFlyingKick = true;
