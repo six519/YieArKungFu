@@ -32,6 +32,16 @@ void Player::setSpritesCoordinates()
     }
 }
 
+void Player::flipSprites()
+{
+    for (auto& name : PlayerSprites)
+    {
+        game->sprites.at(name).flipHorizontal();
+    }
+
+    isFlipped = !isFlipped;
+}
+
 void Player::play()
 {
     setSpritesCoordinates();
@@ -71,6 +81,19 @@ void Player::play()
         //PLAYER_IDLE
         game->sprites.at("player_normal").drawByIndex(0);
         break;
+    }
+
+    //flip checker
+    int villainHalfWidth = (game->sprites.at(Villains[game->stage - 1] + "_normal").getTexture().width / 2) / 2;
+    if ((game->gameStage->villainX + villainHalfWidth) < x && !isFlipped && !isFlyingKick)
+    {
+        flipSprites();
+    }
+
+    int playerHalfWidth = (game->sprites.at("player_normal").getTexture().width / 2) / 2;
+    if ((x + playerHalfWidth) < game->gameStage->villainX  && isFlipped && !isFlyingKick)
+    {
+        flipSprites();
     }
 }
 

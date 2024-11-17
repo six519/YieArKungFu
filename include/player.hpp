@@ -37,12 +37,14 @@ class Player: public Timer
         int haltTime;
         int haltTimeJump;
         void setSpritesCoordinates();
+        void flipSprites();
         int lastMovement;
         int jumpFramesCounter = 0;
         int accelerationSpeed = 0;
         int jumpTowards;
         bool isFlyingKick = false;
         bool canFlyingKick = true;
+        bool isFlipped = false;
     protected:
         Game *game;
         void onTimeTick();

@@ -21,9 +21,6 @@ class Player;
 class Game
 {
     private:
-        TitleStage *titleStage;
-        ViewStage *viewStage;
-        GameStage *gameStage;
         void cleanUp();
         void loadSprite(string name);
         void loadMusic(string name);
@@ -32,6 +29,9 @@ class Game
         int state;
         int stage;
         int score;
+        TitleStage *titleStage;
+        ViewStage *viewStage;
+        GameStage *gameStage;
         Player *player;
         map<string, Sprite> sprites;
         map<string, Music> musics;
