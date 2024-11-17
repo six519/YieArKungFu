@@ -240,13 +240,15 @@ void Player::handleJump()
                     return;
                 }
                 setMovement(PLAYER_COMING_DOWN);
-                accelerationSpeed = PLAYER_JUMP_ACCELERATION_FRAME_SPEED;
                 return;
             }
 
             if (y < PLAYER_DEFAULT_Y)
             {
-                accelerationSpeed -= 1;
+                if (accelerationSpeed < PLAYER_JUMP_ACCELERATION_FRAME_SPEED)
+                {
+                    accelerationSpeed += 1;
+                }
                 y += PLAYER_JUMP_SPEED;
                 return;
             }
