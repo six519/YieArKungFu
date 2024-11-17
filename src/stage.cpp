@@ -239,6 +239,9 @@ void GameStage::stageDraw()
         game->sprites.at("life").x += 8;
     }
 
+    drawText("ferdie", 48, (GAME_HEIGHT - 24), false);
+    drawText(Villains[game->stage - 1], (208 - (Villains[game->stage - 1].size() * 8)), (GAME_HEIGHT - 24), false);
+
     game->player->play();
 }
 

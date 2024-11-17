@@ -76,4 +76,11 @@ class GameStage: public Stage
         void cleanUp();
 };
 
+const string Villains[] = {
+    "wang",
+    "tao ",
+    "chen",
+    "lang"
+};
+
 #endif
