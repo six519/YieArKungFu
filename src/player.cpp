@@ -1,5 +1,4 @@
 #include "player.hpp"
-#include <iostream>
 
 Player::Player(Game *gm)
 {
@@ -18,6 +17,7 @@ void Player::clear()
     lives = PLAYER_DEFAULT_LIVES;
     inputDisabled = false;
     haltTime = 0;
+    haltTimeJump = 0;
     canAttack = true;
     lastMovement = PLAYER_NONE;
 }
@@ -46,7 +46,7 @@ void Player::play()
     case PLAYER_DOWN:
     case PLAYER_UP:
     case PLAYER_COMING_DOWN:
-        game->sprites.at("player_down").draw();
+        (isFlyingKick)? game->sprites.at("player_flying_kick").draw() : game->sprites.at("player_down").draw();
         break;
     case PLAYER_IDLE_2:
         game->sprites.at("player_normal").drawByIndex(1);
@@ -93,6 +93,17 @@ void Player::onTimeTick()
             }
 
             setMovement(PLAYER_IDLE);
+        }
+    }
+
+    if (inputDisabled && isFlyingKick)
+    {
+        haltTimeJump += 1;
+
+        if (haltTimeJump == 2)
+        {
+            haltTimeJump = 0;
+            isFlyingKick = false;
         }
     }
 }
@@ -182,6 +193,21 @@ void Player::handleKeys()
     {
         canAttack = true;
     }
+
+    if (
+        game->state == STAGE_GAME 
+        && IsKeyDown(KEY_S) 
+        && !isFlyingKick
+        && (currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN)
+        && y <= (PLAYER_JUMP_HEIGHT + 16) // TODO: Not sure if it is the right Math
+        && canFlyingKick
+    )
+    {
+        isFlyingKick = true;
+        PlaySound(game->sounds.at("attack"));
+        haltTimeJump = 0;
+        canFlyingKick = false;
+    }
 }
 
 void Player::handleAttack(bool condition, int movement)
@@ -227,7 +253,9 @@ void Player::handleJump()
 
             y = PLAYER_DEFAULT_Y;
             currentMovement = PLAYER_IDLE;
+            isFlyingKick = false;
             inputDisabled = false;
+            canFlyingKick = true;
         }
     }
 }

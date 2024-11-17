@@ -21,7 +21,7 @@
 #define PLAYER_DEFAULT_LIVES 2
 #define PLAYER_JUMP_HEIGHT 115
 #define PLAYER_JUMP_SPEED 4
-#define PLAYER_JUMP_ACCELERATION_FRAME_SPEED 31
+#define PLAYER_JUMP_ACCELERATION_FRAME_SPEED 30
 #define PLAYER_JUMP_TOWARDS_NONE 0
 #define PLAYER_JUMP_TOWARDS_LEFT 1
 #define PLAYER_JUMP_TOWARDS_RIGHT 2
@@ -35,11 +35,14 @@ class Player: public Timer
 {
     private:
         int haltTime;
+        int haltTimeJump;
         void setSpritesCoordinates();
         int lastMovement;
         int jumpFramesCounter = 0;
         int accelerationSpeed = 0;
         int jumpTowards;
+        bool isFlyingKick = false;
+        bool canFlyingKick = true;
     protected:
         Game *game;
         void onTimeTick();
@@ -67,7 +70,8 @@ const vector<string> PlayerSprites = {
     "player_sit_punch",
     "player_stand_kick",
     "player_sit_kick",
-    "player_high_kick"
+    "player_high_kick",
+    "player_flying_kick"
 };
 
 #endif
