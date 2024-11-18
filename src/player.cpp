@@ -21,6 +21,11 @@ void Player::clear()
     canAttack = true;
     lastMovement = PLAYER_NONE;
     health = DEFAULT_HEALTH;
+
+    if (isFlipped)
+    {
+        flipSprites();
+    }
 }
 
 void Player::setSpritesCoordinates()
