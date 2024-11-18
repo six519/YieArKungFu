@@ -88,6 +88,8 @@ class GameStage: public Stage
         int villainCurrentMove = VILLAIN_MOVE_NONE;
         void setVillainSpritesCoordinates();
         void showVillain();
+        void flipVillainSprites();
+        bool isVillainFlipped = false;
 };
 
 const string Villains[] = {
@@ -95,6 +97,10 @@ const string Villains[] = {
     "tao",
     "chen",
     "lang"
+};
+
+const string VillainSprites[] = {
+    "normal"
 };
 
 #endif

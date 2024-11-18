@@ -318,4 +318,18 @@ void GameStage::reset()
     villainHealth = DEFAULT_HEALTH;
     villainX = VILLAIN_DEFAULT_X;
     villainY = VILLAIN_DEFAULT_Y;
+
+    if (isVillainFlipped)
+    {
+        flipVillainSprites();
+    }
+}
+
+void GameStage::flipVillainSprites()
+{
+    for(int x = 0; x < sizeof(VillainSprites) / sizeof(VillainSprites[0]); x++)
+    {
+        game->sprites.at(Villains[game->stage - 1] + VillainSprites[x]).flipHorizontal();   
+    }
+    isVillainFlipped = !isVillainFlipped;
 }
