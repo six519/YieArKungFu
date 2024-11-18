@@ -218,7 +218,7 @@ void Player::handleKeys()
         && IsKeyDown(KEY_S) 
         && !isFlyingKick
         && (currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN)
-        && y <= (PLAYER_JUMP_HEIGHT + 16) // TODO: Not sure if it is the right Math
+        && y <= (PLAYER_JUMP_HEIGHT + 24) // TODO: Not sure if it is the right Math (16 ORIGINALY)
         && canFlyingKick
     )
     {
