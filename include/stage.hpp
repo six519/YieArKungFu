@@ -8,6 +8,8 @@
 
 #define VILLAIN_DEFAULT_X 147
 #define VILLAIN_DEFAULT_Y 152
+#define VILLAIN_MOVE_NONE -1
+#define VILLAIN_MOVE_IDLE 0
 
 #include "game.hpp"
 #include "timer.hpp"
@@ -77,9 +79,11 @@ class GameStage: public Stage
         void onTimeTick();
     public:
         void cleanUp();
+        void reset();
         int villainHealth;
         int villainX;
         int villainY;
+        int villainCurrentMove = VILLAIN_MOVE_NONE;
         void setVillainSpritesCoordinates();
         void showVillain();
 };

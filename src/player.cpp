@@ -49,8 +49,6 @@ void Player::play()
     switch (currentMovement)
     {
     case PLAYER_LEFT:
-        game->sprites.at("player_normal").play();
-        break;
     case PLAYER_RIGHT:
         game->sprites.at("player_normal").play();
         break;
@@ -84,14 +82,11 @@ void Player::play()
     }
 
     //flip checker
-    int villainHalfWidth = (game->sprites.at(Villains[game->stage - 1] + "_normal").getTexture().width / 2) / 2;
-    if ((game->gameStage->villainX + villainHalfWidth) < x && !isFlipped && !isFlyingKick)
+    if ((game->gameStage->villainX) < x && !isFlipped && !isFlyingKick)
     {
         flipSprites();
     }
-
-    int playerHalfWidth = (game->sprites.at("player_normal").getTexture().width / 2) / 2;
-    if ((x + playerHalfWidth) < game->gameStage->villainX  && isFlipped && !isFlyingKick)
+    if ((x) < game->gameStage->villainX  && isFlipped && !isFlyingKick)
     {
         flipSprites();
     }
