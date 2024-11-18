@@ -29,6 +29,7 @@ class Sprite
         void play();
         void drawByIndex(int index);
         void setTileCount(int count);
+        int getTileCount();
         void flipHorizontal();
         void overrideFrameSpeed(int speed);
 };

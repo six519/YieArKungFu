@@ -65,3 +65,8 @@ void Sprite::overrideFrameSpeed(int speed)
 {
     frameSpeed = speed;
 }
+
+int Sprite::getTileCount()
+{
+    return tileCount;
+}

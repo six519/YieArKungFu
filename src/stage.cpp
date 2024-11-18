@@ -310,6 +310,16 @@ void GameStage::showVillain()
             game->sprites.at(Villains[game->stage - 1] + "_normal").drawByIndex(0);
             break;
     }
+
+    //flip checker
+    if ((game->player->x) > villainX && !isVillainFlipped)
+    {
+        flipVillainSprites();
+    }
+    if ((villainX) > game->player->x  && isVillainFlipped)
+    {
+        flipVillainSprites();
+    }
 }
 
 void GameStage::reset()
@@ -329,7 +339,7 @@ void GameStage::flipVillainSprites()
 {
     for(int x = 0; x < sizeof(VillainSprites) / sizeof(VillainSprites[0]); x++)
     {
-        game->sprites.at(Villains[game->stage - 1] + VillainSprites[x]).flipHorizontal();   
+        game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[x]).flipHorizontal();   
     }
     isVillainFlipped = !isVillainFlipped;
 }
