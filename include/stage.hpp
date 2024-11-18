@@ -10,6 +10,8 @@
 #define VILLAIN_DEFAULT_Y 152
 #define VILLAIN_MOVE_NONE -1
 #define VILLAIN_MOVE_IDLE 0
+#define VILLAIN_MOVE_LEFT 1
+#define VILLAIN_MOVE_RIGHT 2
 
 #include "game.hpp"
 #include "timer.hpp"

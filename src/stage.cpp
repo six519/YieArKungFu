@@ -301,7 +301,16 @@ void GameStage::setVillainSpritesCoordinates()
 void GameStage::showVillain()
 {
     setVillainSpritesCoordinates();
-    game->sprites.at(Villains[game->stage - 1] + "_normal").drawByIndex(0);
+
+    switch(villainCurrentMove)
+    {
+        case VILLAIN_MOVE_LEFT:
+            break;
+        default:
+            // VILLAIN_MOVE_IDLE
+            game->sprites.at(Villains[game->stage - 1] + "_normal").drawByIndex(0);
+            break;
+    }
 }
 
 void GameStage::reset()
