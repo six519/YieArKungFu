@@ -293,9 +293,8 @@ void GameStage::onTimeTick(){}
 
 void GameStage::setVillainSpritesCoordinates()
 {
-    // TODO: Manual for now
-    game->sprites.at("wang_normal").x = villainX;
-    game->sprites.at("wang_normal").y = villainY;
+    game->sprites.at(Villains[game->stage - 1] + "_normal").x = villainX;
+    game->sprites.at(Villains[game->stage - 1] + "_normal").y = villainY;
 }
 
 void GameStage::showVillain()

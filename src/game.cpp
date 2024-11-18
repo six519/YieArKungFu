@@ -18,6 +18,9 @@ Game::Game()
     sprites.at("letters").setTileCount(SpriteLetters.size());
     sprites.at("player_normal").setTileCount(2);
     sprites.at("wang_normal").setTileCount(2);
+    sprites.at("tao_normal").setTileCount(2);
+    sprites.at("chen_normal").setTileCount(4);
+    sprites.at("lang_normal").setTileCount(2);
 
     // initialize musics
     for (auto& name : MusicsList)

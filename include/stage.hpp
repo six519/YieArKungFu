@@ -92,7 +92,7 @@ class GameStage: public Stage
 
 const string Villains[] = {
     "wang",
-    "tao ",
+    "tao",
     "chen",
     "lang"
 };
