@@ -14,8 +14,6 @@ void Stage::run()
         initialized = true;
     }
     this->timeTick();
-    game->player->timeTick();
-    game->player->handleJump();
     this->draw();
     this->handleKeys();
 }
@@ -220,9 +218,22 @@ void GameStage::init()
     reset();
 }
 
+void GameStage::run()
+{
+    Stage::run();
+    if (!pauseMovement)
+    {
+        game->player->timeTick();
+        game->player->handleJump();
+    }
+}
+
 void GameStage::handleKeys()
 {
-    game->player->handleKeys();
+    if (!pauseMovement)
+    {
+        game->player->handleKeys();
+    }
 }
 
 void GameStage::stageDraw()
@@ -339,6 +350,7 @@ void GameStage::reset()
     villainHealth = DEFAULT_HEALTH;
     villainX = VILLAIN_DEFAULT_X;
     villainY = VILLAIN_DEFAULT_Y;
+    pauseMovement = false;
 
     spinningChainX = 140;
     spinningChainY = 155;

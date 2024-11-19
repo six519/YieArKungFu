@@ -83,6 +83,7 @@ class GameStage: public Stage
     public:
         void cleanUp();
         void reset();
+        void run();
         int villainHealth;
         int villainX;
         int villainY;
@@ -91,6 +92,7 @@ class GameStage: public Stage
         void showVillain();
         void flipVillainSprites();
         bool isVillainFlipped = false;
+        bool pauseMovement = false;
         int spinningChainX;
         int spinningChainY;
 };
