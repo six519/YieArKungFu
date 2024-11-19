@@ -12,6 +12,7 @@
 #define VILLAIN_MOVE_IDLE 0
 #define VILLAIN_MOVE_LEFT 1
 #define VILLAIN_MOVE_RIGHT 2
+#define SPINNING_CHAIN_SPEED 6
 
 #include "game.hpp"
 #include "timer.hpp"
@@ -90,6 +91,8 @@ class GameStage: public Stage
         void showVillain();
         void flipVillainSprites();
         bool isVillainFlipped = false;
+        int spinningChainX;
+        int spinningChainY;
 };
 
 const string Villains[] = {

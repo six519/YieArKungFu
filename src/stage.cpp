@@ -214,6 +214,9 @@ void GameStage::init()
 
     game->sprites.at("health_green").y = 210;
     game->sprites.at("health_red").y = 210;
+
+    game->sprites.at("spinning_chain").overrideFrameSpeed(SPINNING_CHAIN_SPEED);
+
     reset();
 }
 
@@ -307,6 +310,14 @@ void GameStage::showVillain()
             break;
         default:
             // VILLAIN_MOVE_IDLE
+
+            if (game->stage == 3)
+            {
+                game->sprites.at("spinning_chain").x = spinningChainX;
+                game->sprites.at("spinning_chain").y = spinningChainY;
+                game->sprites.at("spinning_chain").play();
+            }
+
             game->sprites.at(Villains[game->stage - 1] + "_normal").drawByIndex(0);
             break;
     }
@@ -329,6 +340,9 @@ void GameStage::reset()
     villainX = VILLAIN_DEFAULT_X;
     villainY = VILLAIN_DEFAULT_Y;
 
+    spinningChainX = 140;
+    spinningChainY = 155;
+
     if (isVillainFlipped)
     {
         flipVillainSprites();
@@ -341,5 +355,14 @@ void GameStage::flipVillainSprites()
     {
         game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[x]).flipHorizontal();   
     }
+    game->sprites.at("spinning_chain").flipHorizontal();
     isVillainFlipped = !isVillainFlipped;
+
+    if (isVillainFlipped)
+    {
+        spinningChainX -= 19;
+        return;
+    }
+
+    spinningChainX += 19;
 }

@@ -54,7 +54,8 @@ const vector<string> SpriteImages = {
     "wang_normal",
     "tao_normal",
     "chen_normal",
-    "lang_normal"
+    "lang_normal",
+    "spinning_chain"
 };
 
 const string CopyrightText = "* 1985 konami";
