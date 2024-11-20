@@ -310,6 +310,9 @@ void GameStage::onTimeTick()
         {
             pauseMovement = false;
             haltTime = 0;
+
+            if (game->player->currentMovement == PLAYER_UP || game->player->currentMovement == PLAYER_COMING_DOWN)
+                game->player->showHit = false;
         }
     }
 }

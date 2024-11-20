@@ -44,6 +44,8 @@ void Player::flipSprites()
         game->sprites.at(name).flipHorizontal();
     }
 
+    game->sprites.at("hit").flipHorizontal();
+
     isFlipped = !isFlipped;
 }
 
@@ -86,6 +88,11 @@ void Player::play()
         break;
     }
 
+    if (showHit)
+    {
+        game->sprites.at("hit").draw();
+    }
+
     //flip checker
     if ((game->gameStage->villainX) < x && !isFlipped && !isFlyingKick)
     {
@@ -109,6 +116,7 @@ void Player::onTimeTick()
         {
             inputDisabled = false;
             haltTime = 0;
+            showHit = false;
 
             if (lastMovement == PLAYER_DOWN && IsKeyDown(KEY_DOWN))
             {
@@ -386,6 +394,9 @@ void Player::checkCollisionWithVillain()
 
     // collided
     PlaySound(game->sounds.at("collided"));
+    game->sprites.at("hit").x = playerX;
+    game->sprites.at("hit").y = playerY;
     game->gameStage->haltTime = 0;
     game->gameStage->pauseMovement = true;
+    showHit = true;
 }
