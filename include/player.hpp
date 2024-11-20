@@ -14,6 +14,7 @@
 #define PLAYER_HIGH_KICK 9
 #define PLAYER_UP 10
 #define PLAYER_COMING_DOWN 11
+#define PLAYER_SMILE 12
 #define PLAYER_SPEED 1
 #define PLAYER_FRAME_SPEED 15
 #define PLAYER_DEFAULT_X 40
@@ -37,7 +38,6 @@ class Player: public Timer
         int haltTime;
         int haltTimeJump;
         void setSpritesCoordinates();
-        void flipSprites();
         int lastMovement;
         int jumpFramesCounter = 0;
         int accelerationSpeed = 0;
@@ -59,6 +59,7 @@ class Player: public Timer
         Player(Game *gm);
         void clear();
         void play();
+        void flipSprites();
         void setMovement(int move);
         void handleKeys();
         void handleAttack(bool condition, int movement);
@@ -76,7 +77,8 @@ const vector<string> PlayerSprites = {
     "player_stand_kick",
     "player_sit_kick",
     "player_high_kick",
-    "player_flying_kick"
+    "player_flying_kick",
+    "player_smile"
 };
 
 #endif

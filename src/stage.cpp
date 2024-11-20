@@ -335,6 +335,7 @@ void GameStage::onTimeTick()
 
 void GameStage::handleEndState()
 {
+    //showtime: p, hk, lk, lk, hk, p
     switch(endState)
     {
         case END_STATE_PLAY_SOUND:
@@ -342,6 +343,28 @@ void GameStage::handleEndState()
             endState = END_STATE_SHOWTIME;
             break;
         case END_STATE_SHOWTIME:
+            setEndStateWithPlayerMovement(PLAYER_STAND_PUNCH, false);
+            break;
+        case END_STATE_SHOWTIME_HK1:
+            setEndStateWithPlayerMovement(PLAYER_HIGH_KICK, true);
+            break;
+        case END_STATE_SHOWTIME_LK1:
+            setEndStateWithPlayerMovement(PLAYER_SIT_KICK, true);
+            break;
+        case END_STATE_SHOWTIME_LK2:
+            setEndStateWithPlayerMovement(PLAYER_SIT_KICK, true);
+            break;
+        case END_STATE_SHOWTIME_HK2:
+            setEndStateWithPlayerMovement(PLAYER_HIGH_KICK, true);
+            break;
+        case END_STATE_SHOWTIME_P:
+            setEndStateWithPlayerMovement(PLAYER_STAND_PUNCH, true);
+            break;
+        case END_STATE_SMILE:
+            game->player->setMovement(PLAYER_SMILE);
+            endState += 1;
+            break;
+        case END_STATE_END:
             break;
         default:
             // END_STATE_START
@@ -350,6 +373,15 @@ void GameStage::handleEndState()
             endState = END_STATE_PLAY_SOUND;
             break;
     }
+}
+
+void GameStage::setEndStateWithPlayerMovement(int pMove, bool flip)
+{
+    if (flip)
+        game->player->flipSprites();
+    game->player->setMovement(pMove);
+    PlaySound(game->sounds.at("attack"));
+    endState += 1;
 }
 
 void GameStage::setVillainSpritesCoordinates()

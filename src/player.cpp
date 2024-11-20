@@ -82,6 +82,9 @@ void Player::play()
     case PLAYER_HIGH_KICK:
         game->sprites.at("player_high_kick").draw();
         break;
+    case PLAYER_SMILE:
+        game->sprites.at("player_smile").draw();
+        break;
     default:
         //PLAYER_IDLE
         game->sprites.at("player_normal").drawByIndex(0);
@@ -94,13 +97,16 @@ void Player::play()
     }
 
     //flip checker
-    if ((game->gameStage->villainX) < x && !isFlipped && !isFlyingKick)
+    if (game->gameStage->endState <= END_STATE_START)
     {
-        flipSprites();
-    }
-    if ((x) < game->gameStage->villainX  && isFlipped && !isFlyingKick)
-    {
-        flipSprites();
+        if ((game->gameStage->villainX) < x && !isFlipped && !isFlyingKick)
+        {
+            flipSprites();
+        }
+        if ((x) < game->gameStage->villainX  && isFlipped && !isFlyingKick)
+        {
+            flipSprites();
+        }
     }
 }
 
