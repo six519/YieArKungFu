@@ -95,6 +95,7 @@ class GameStage: public Stage
         bool pauseMovement = false;
         int spinningChainX;
         int spinningChainY;
+        int haltTime;
 };
 
 const string Villains[] = {

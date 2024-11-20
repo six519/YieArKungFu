@@ -230,10 +230,7 @@ void GameStage::run()
 
 void GameStage::handleKeys()
 {
-    if (!pauseMovement)
-    {
-        game->player->handleKeys();
-    }
+    game->player->handleKeys();
 }
 
 void GameStage::stageDraw()
@@ -303,7 +300,19 @@ void GameStage::cleanUp()
     Stage::cleanUp();
 }
 
-void GameStage::onTimeTick(){}
+void GameStage::onTimeTick()
+{
+    if (pauseMovement)
+    {
+        haltTime += 1;
+
+        if (haltTime == 2)
+        {
+            pauseMovement = false;
+            haltTime = 0;
+        }
+    }
+}
 
 void GameStage::setVillainSpritesCoordinates()
 {
@@ -354,6 +363,7 @@ void GameStage::reset()
     villainX = VILLAIN_DEFAULT_X;
     villainY = VILLAIN_DEFAULT_Y;
     pauseMovement = false;
+    haltTime = 0;
 
     spinningChainX = 140;
     spinningChainY = 155;

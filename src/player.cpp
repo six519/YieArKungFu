@@ -141,7 +141,7 @@ void Player::setMovement(int move)
 void Player::handleKeys()
 {
     // making sure that it will be executed only on a specific state
-    if (game->state == STAGE_GAME && !inputDisabled)
+    if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement)
     {
         if (IsKeyDown(KEY_LEFT) && x > STAGE_BOUNDARY)
         {
@@ -225,6 +225,7 @@ void Player::handleKeys()
         && (currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN)
         && y <= (PLAYER_JUMP_HEIGHT + 24) // TODO: Not sure if it is the right Math (16 ORIGINALY)
         && canFlyingKick
+        && !game->gameStage->pauseMovement
     )
     {
         isFlyingKick = true;
@@ -385,4 +386,6 @@ void Player::checkCollisionWithVillain()
 
     // collided
     PlaySound(game->sounds.at("collided"));
+    game->gameStage->haltTime = 0;
+    game->gameStage->pauseMovement = true;
 }
