@@ -21,6 +21,15 @@ using namespace std;
 
 class Game;
 
+struct CollisionInfo
+{
+    int x1;
+    int x2;
+    int y;
+    int width;
+    int height;
+};
+
 class Stage: public Timer
 {
     protected:
@@ -107,6 +116,13 @@ const string Villains[] = {
 
 const string VillainSprites[] = {
     "normal"
+};
+
+const CollisionInfo collisionsInfo[] = {
+    {5, 6, 8, 16, 32},
+    {7, 4, 8, 16, 32},
+    {9, 7, 8, 16, 32},
+    {7, 4, 9, 9, 31}
 };
 
 #endif

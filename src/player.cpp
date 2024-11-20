@@ -327,11 +327,10 @@ void Player::handleTowardsJump()
 
 void Player::checkCollisionWithVillain()
 {
-    //TODO: Code below is temporary. We'll use normal for now but next time, it should be dynamic.
-    int villainX = (game->gameStage->isVillainFlipped)? (game->gameStage->villainX + 6) : (game->gameStage->villainX + 5);
-    int villainY = (game->gameStage->villainY + 8);
-    int lowerX1 = villainX + 16 - 1;
-    int lowerY1 = villainY + 32 - 1;
+    int villainX = (game->gameStage->isVillainFlipped)? (game->gameStage->villainX + collisionsInfo[game->stage - 1].x2) : (game->gameStage->villainX + collisionsInfo[game->stage - 1].x1);
+    int villainY = (game->gameStage->villainY + collisionsInfo[game->stage - 1].y);
+    int lowerX1 = villainX + collisionsInfo[game->stage - 1].width - 1;
+    int lowerY1 = villainY + collisionsInfo[game->stage - 1].height - 1;
 
     int lowerX2 = 0;
     int lowerY2 = 0;
