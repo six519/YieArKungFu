@@ -228,9 +228,9 @@ void Player::handleKeys()
     )
     {
         isFlyingKick = true;
-        PlaySound(game->sounds.at("attack"));
         haltTimeJump = 0;
         canFlyingKick = false;
+        checkCollisionWithVillain();
     }
 }
 
@@ -238,10 +238,10 @@ void Player::handleAttack(bool condition, int movement)
 {
     if(condition)
     {
-        PlaySound(game->sounds.at("attack"));
         inputDisabled = true;
         canAttack = false;
         setMovement(movement);
+        checkCollisionWithVillain();
     }
 }
 
@@ -314,4 +314,75 @@ void Player::handleTowardsJump()
         x = STAGE_BOUNDARY;
         jumpTowards = PLAYER_JUMP_TOWARDS_RIGHT;
     }
+}
+
+void Player::checkCollisionWithVillain()
+{
+    //TODO: Code below is temporary. We'll use normal for now but next time, it should be dynamic.
+    int villainX = (game->gameStage->isVillainFlipped)? (game->gameStage->villainX + 6) : (game->gameStage->villainX + 5);
+    int villainY = (game->gameStage->villainY + 8);
+    int lowerX1 = villainX + 16 - 1;
+    int lowerY1 = villainY + 32 - 1;
+
+    int lowerX2 = 0;
+    int lowerY2 = 0;
+    int playerX = 0;
+    int playerY = 0;
+    int playerBoxWidth = 0;
+    int playerBoxHeight = 0;
+
+    switch(currentMovement)
+    {
+        case PLAYER_SIT_PUNCH:
+            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 28) ;
+            playerY = (game->player->y + 19);
+            playerBoxWidth = 3;
+            playerBoxHeight = 3;
+            break;
+        case PLAYER_STAND_KICK:
+            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 25) ;
+            playerY = (game->player->y + 24);
+            playerBoxWidth = 6;
+            playerBoxHeight = 5;
+            break;
+            break;
+        case PLAYER_SIT_KICK:
+            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 30) ;
+            playerY = (game->player->y + 27);
+            playerBoxWidth = 6;
+            playerBoxHeight = 5;
+            break;
+        case PLAYER_HIGH_KICK:
+            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 27) ;
+            playerY = (game->player->y + 3);
+            playerBoxWidth = 5;
+            playerBoxHeight = 4;
+            break;
+        case PLAYER_UP:
+        case PLAYER_COMING_DOWN:
+            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 31) ;
+            playerY = (game->player->y + 24);
+            playerBoxWidth = 4;
+            playerBoxHeight = 5;
+            break;
+        default:
+            //PLAYER_STAND_PUNCH
+            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 25) ;
+            playerY = (game->player->y + 14);
+            playerBoxWidth = 3;
+            playerBoxHeight = 3;
+            break;
+    }
+
+    lowerX2 = playerX + playerBoxWidth - 1;
+    lowerY2 = playerY + playerBoxHeight - 1;
+
+    if (lowerX1 < playerX || villainX > lowerX2 || lowerY1 < playerY || villainY > lowerY2)
+    {
+        PlaySound(game->sounds.at("attack"));
+        return;
+    }
+
+    // collided
+    PlaySound(game->sounds.at("collided"));
 }

@@ -307,8 +307,11 @@ void GameStage::onTimeTick(){}
 
 void GameStage::setVillainSpritesCoordinates()
 {
-    game->sprites.at(Villains[game->stage - 1] + "_normal").x = villainX;
-    game->sprites.at(Villains[game->stage - 1] + "_normal").y = villainY;
+    for(int x = 0; x < sizeof(VillainSprites) / sizeof(VillainSprites[0]); x++)
+    {
+        game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[x]).x = villainX;
+        game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[x]).y = villainY;
+    }
 }
 
 void GameStage::showVillain()

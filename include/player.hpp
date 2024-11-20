@@ -64,6 +64,7 @@ class Player: public Timer
         void handleAttack(bool condition, int movement);
         void handleJump();
         void handleTowardsJump();
+        void checkCollisionWithVillain();
 };
 
 const vector<string> PlayerSprites = {

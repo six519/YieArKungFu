@@ -45,7 +45,8 @@ const vector<string> MusicsList = {
 };
 
 const vector<string> SoundsList = {
-    "attack"
+    "attack",
+    "collided"
 };
 
 #endif
