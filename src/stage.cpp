@@ -144,10 +144,7 @@ void TitleStage::stageDraw()
     // press enter to start
     drawText(ToStartText, (GAME_WIDTH / 2) - ((ToStartText.size() * LETTER_WIDTH) / 2), 165, blinkEnter);
 
-    if (blinkEnter)
-    {
-        UpdateMusicStream(game->musics.at("bg"));
-    }
+    UpdateMusicStream(game->musics.at("bg"));
 }
 
 void TitleStage::onBlinkingDone()
@@ -230,7 +227,8 @@ void GameStage::run()
 
 void GameStage::handleKeys()
 {
-    game->player->handleKeys();
+    if (game->player->health > 0 && villainHealth > 0)
+        game->player->handleKeys();
 }
 
 void GameStage::stageDraw()
@@ -280,8 +278,9 @@ void GameStage::stageDraw()
 
     for (int x = 0; x < villainHealth; x++)
     {
-        game->sprites.at("health_green").draw();
-        game->sprites.at("health_green").x += 8;
+        string h_hud = (villainHealth > LOW_HEALTH)? "green" : "red";
+        game->sprites.at("health_" + h_hud).draw();
+        game->sprites.at("health_" + h_hud).x += 8;
     }
 
     // show villain
@@ -313,7 +312,43 @@ void GameStage::onTimeTick()
 
             if (game->player->currentMovement == PLAYER_UP || game->player->currentMovement == PLAYER_COMING_DOWN)
                 game->player->showHit = false;
+
+            villainHealth -= 1;
+            if (villainHealth == 0)
+            {
+                StopMusicStream(game->musics.at("bg"));
+                haltTime = 0;
+            }
         }
+    }
+
+    if (game->player->health == 0 || villainHealth == 0)
+    {
+        haltTime += 1;
+        if (haltTime == 2)
+        {
+            handleEndState();
+            haltTime = 0;
+        }
+    }
+}
+
+void GameStage::handleEndState()
+{
+    switch(endState)
+    {
+        case END_STATE_PLAY_SOUND:
+            PlaySound(game->sounds.at("win"));
+            endState = END_STATE_SHOWTIME;
+            break;
+        case END_STATE_SHOWTIME:
+            break;
+        default:
+            // END_STATE_START
+            villainCurrentMove = VILLAIN_MOVE_DEAD;
+            PlaySound(game->sounds.at("dead"));
+            endState = END_STATE_PLAY_SOUND;
+            break;
     }
 }
 
@@ -333,6 +368,9 @@ void GameStage::showVillain()
     switch(villainCurrentMove)
     {
         case VILLAIN_MOVE_LEFT:
+            break;
+        case VILLAIN_MOVE_DEAD:
+            game->sprites.at(Villains[game->stage - 1] + "_dead").draw();
             break;
         default:
             // VILLAIN_MOVE_IDLE
@@ -370,6 +408,8 @@ void GameStage::reset()
 
     spinningChainX = 140;
     spinningChainY = 155;
+
+    endState = END_STATE_START;
 
     if (isVillainFlipped)
     {

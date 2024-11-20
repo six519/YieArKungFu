@@ -12,7 +12,12 @@
 #define VILLAIN_MOVE_IDLE 0
 #define VILLAIN_MOVE_LEFT 1
 #define VILLAIN_MOVE_RIGHT 2
+#define VILLAIN_MOVE_DEAD 3
 #define SPINNING_CHAIN_SPEED 6
+
+#define END_STATE_START 0
+#define END_STATE_PLAY_SOUND 1
+#define END_STATE_SHOWTIME 2
 
 #include "game.hpp"
 #include "timer.hpp"
@@ -93,6 +98,7 @@ class GameStage: public Stage
         void cleanUp();
         void reset();
         void run();
+        void handleEndState();
         int villainHealth;
         int villainX;
         int villainY;
@@ -105,6 +111,7 @@ class GameStage: public Stage
         int spinningChainX;
         int spinningChainY;
         int haltTime;
+        int endState = END_STATE_START;
 };
 
 const string Villains[] = {
@@ -115,7 +122,8 @@ const string Villains[] = {
 };
 
 const string VillainSprites[] = {
-    "normal"
+    "normal",
+    "dead"
 };
 
 const CollisionInfo collisionsInfo[] = {

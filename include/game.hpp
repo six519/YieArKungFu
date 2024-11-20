@@ -2,7 +2,7 @@
 #define _GAME_H_
 
 #define DEFAULT_HEALTH 9
-#define LOW_HEALTH = 4
+#define LOW_HEALTH 4
 
 #include <map>
 #include <raylib.h>
@@ -46,7 +46,9 @@ const vector<string> MusicsList = {
 
 const vector<string> SoundsList = {
     "attack",
-    "collided"
+    "collided",
+    "dead",
+    "win"
 };
 
 #endif
