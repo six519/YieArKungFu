@@ -408,7 +408,7 @@ void GameStage::handleEndState()
             break;
         case END_STATE_END:
             maxHaltTime = HIGH_TIME;
-            if (game->stage == 4)
+            if (game->stage == 5)
             {
                 PlaySound(game->sounds.at("game_over"));
                 endState = END_STATE_GAME_OVER;

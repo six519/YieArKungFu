@@ -61,7 +61,9 @@ const vector<string> SpriteImages = {
     "tao_dead",
     "chen_dead",
     "lang_dead",
-    "player_smile"
+    "player_smile",
+    "mu_normal",
+    "mu_dead"
 };
 
 const string CopyrightText = "* 1985 konami";

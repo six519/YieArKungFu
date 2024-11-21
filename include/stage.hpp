@@ -133,7 +133,8 @@ const string Villains[] = {
     "wang",
     "tao",
     "chen",
-    "lang"
+    "lang",
+    "mu"
 };
 
 const string VillainSprites[] = {
@@ -145,7 +146,8 @@ const CollisionInfo collisionsInfo[] = {
     {5, 6, 8, 16, 32},
     {7, 4, 8, 16, 32},
     {9, 7, 8, 16, 32},
-    {7, 4, 9, 9, 31}
+    {7, 4, 9, 9, 31},
+    {12, 2, 8, 17, 32},
 };
 
 #endif
