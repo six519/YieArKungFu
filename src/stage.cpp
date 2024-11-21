@@ -206,7 +206,6 @@ void ViewStage::onTimeTick()
 void GameStage::init()
 {
     game->sprites.at("life").y = 48;
-    game->sprites.at("life").x = 168;
 
     game->sprites.at("health_hud").y = 208;
     game->sprites.at("health_hud").x = (GAME_WIDTH / 2) - (game->sprites.at("health_hud").getTexture().width / 2);
@@ -263,6 +262,7 @@ void GameStage::stageDraw()
     drawText("score", 24, 40, false);
     drawText(to_string(game->score), 24, 48, false);
 
+    game->sprites.at("life").x = 168;
     for (int x = 0; x < game->player->lives; x++)
     {
         game->sprites.at("life").draw();
@@ -309,6 +309,13 @@ void GameStage::stageDraw()
             "game over", 
             (GAME_WIDTH / 2) - ((9 * LETTER_WIDTH) / 2), 
             (GAME_HEIGHT / 2) - (LETTER_WIDTH / 2), 
+            false
+        );
+
+        drawText(
+            "you win", 
+            (GAME_WIDTH / 2) - ((7 * LETTER_WIDTH) / 2), 
+            ((GAME_HEIGHT / 2) - (LETTER_WIDTH / 2)) + 8, 
             false
         );
     }
