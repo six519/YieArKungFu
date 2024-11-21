@@ -13,8 +13,8 @@ void Stage::run()
         this->init();
         initialized = true;
     }
-    this->timeTick();
     this->draw();
+    this->timeTick();
     this->handleKeys();
 }
 
@@ -325,7 +325,7 @@ void GameStage::onTimeTick()
     if (game->player->health == 0 || villainHealth == 0)
     {
         haltTime += 1;
-        if (haltTime == 2)
+        if (haltTime == maxHaltTime)
         {
             handleEndState();
             haltTime = 0;
@@ -343,28 +343,43 @@ void GameStage::handleEndState()
             endState = END_STATE_SHOWTIME;
             break;
         case END_STATE_SHOWTIME:
-            setEndStateWithPlayerMovement(PLAYER_STAND_PUNCH, false);
+            setEndStateWithPlayerMovement(PLAYER_STAND_PUNCH, false, true);
             break;
         case END_STATE_SHOWTIME_HK1:
-            setEndStateWithPlayerMovement(PLAYER_HIGH_KICK, true);
+            setEndStateWithPlayerMovement(PLAYER_HIGH_KICK, true, true);
             break;
         case END_STATE_SHOWTIME_LK1:
-            setEndStateWithPlayerMovement(PLAYER_SIT_KICK, true);
+            setEndStateWithPlayerMovement(PLAYER_SIT_KICK, true, true);
             break;
         case END_STATE_SHOWTIME_LK2:
-            setEndStateWithPlayerMovement(PLAYER_SIT_KICK, true);
+            setEndStateWithPlayerMovement(PLAYER_SIT_KICK, true, true);
             break;
         case END_STATE_SHOWTIME_HK2:
-            setEndStateWithPlayerMovement(PLAYER_HIGH_KICK, true);
+            setEndStateWithPlayerMovement(PLAYER_HIGH_KICK, true, true);
             break;
         case END_STATE_SHOWTIME_P:
-            setEndStateWithPlayerMovement(PLAYER_STAND_PUNCH, true);
+            setEndStateWithPlayerMovement(PLAYER_STAND_PUNCH, true, true);
             break;
         case END_STATE_SMILE:
-            game->player->setMovement(PLAYER_SMILE);
-            endState += 1;
+            setEndStateWithPlayerMovement(PLAYER_SMILE, true, false);
+            break;
+        case END_STATE_COUNT_LIFE:
+            maxHaltTime = LOW_TIME;
+            if (game->player->health > 0)
+            {
+                game->player->health -= 1;
+                PlaySound(game->sounds.at("counting"));
+                game->score += 100;
+                return;
+            }
+            endState = END_STATE_END;
             break;
         case END_STATE_END:
+            maxHaltTime = HIGH_TIME;
+            cleanUp();
+            game->stage += 1;
+            game->state = STAGE_VIEW;
+            PlayMusicStream(game->musics.at("bg"));
             break;
         default:
             // END_STATE_START
@@ -375,12 +390,13 @@ void GameStage::handleEndState()
     }
 }
 
-void GameStage::setEndStateWithPlayerMovement(int pMove, bool flip)
+void GameStage::setEndStateWithPlayerMovement(int pMove, bool flip, bool playSound)
 {
     if (flip)
         game->player->flipSprites();
     game->player->setMovement(pMove);
-    PlaySound(game->sounds.at("attack"));
+    if (playSound)
+        PlaySound(game->sounds.at("attack"));
     endState += 1;
 }
 
@@ -437,6 +453,7 @@ void GameStage::reset()
     villainY = VILLAIN_DEFAULT_Y;
     pauseMovement = false;
     haltTime = 0;
+    maxHaltTime = HIGH_TIME;
 
     spinningChainX = 140;
     spinningChainY = 155;

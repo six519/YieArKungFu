@@ -24,7 +24,11 @@
 #define END_STATE_SHOWTIME_HK2 6
 #define END_STATE_SHOWTIME_P 7
 #define END_STATE_SMILE 8
-#define END_STATE_END 9
+#define END_STATE_COUNT_LIFE 9
+#define END_STATE_END 10
+
+#define HIGH_TIME 2
+#define LOW_TIME 1
 
 #include "game.hpp"
 #include "timer.hpp"
@@ -113,12 +117,13 @@ class GameStage: public Stage
         void setVillainSpritesCoordinates();
         void showVillain();
         void flipVillainSprites();
-        void setEndStateWithPlayerMovement(int pMove, bool flip);
+        void setEndStateWithPlayerMovement(int pMove, bool flip, bool playSound);
         bool isVillainFlipped = false;
         bool pauseMovement = false;
         int spinningChainX;
         int spinningChainY;
         int haltTime;
+        int maxHaltTime;
         int endState = END_STATE_START;
 };
 

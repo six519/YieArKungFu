@@ -344,6 +344,7 @@ void Player::checkCollisionWithVillain()
     int playerY = 0;
     int playerBoxWidth = 0;
     int playerBoxHeight = 0;
+    int scoreToAdd = 100;
 
     switch(currentMovement)
     {
@@ -359,7 +360,6 @@ void Player::checkCollisionWithVillain()
             playerBoxWidth = 6;
             playerBoxHeight = 5;
             break;
-            break;
         case PLAYER_SIT_KICK:
             playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 30) ;
             playerY = (game->player->y + 27);
@@ -371,6 +371,7 @@ void Player::checkCollisionWithVillain()
             playerY = (game->player->y + 3);
             playerBoxWidth = 5;
             playerBoxHeight = 4;
+            scoreToAdd = 200;
             break;
         case PLAYER_UP:
         case PLAYER_COMING_DOWN:
@@ -378,6 +379,7 @@ void Player::checkCollisionWithVillain()
             playerY = (game->player->y + 24);
             playerBoxWidth = 4;
             playerBoxHeight = 5;
+            scoreToAdd = 300;
             break;
         default:
             //PLAYER_STAND_PUNCH
@@ -403,5 +405,6 @@ void Player::checkCollisionWithVillain()
     game->sprites.at("hit").y = playerY;
     game->gameStage->haltTime = 0;
     game->gameStage->pauseMovement = true;
+    game->score += scoreToAdd;
     showHit = true;
 }
