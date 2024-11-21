@@ -10,6 +10,7 @@ A Yie Ar Kung-Fu clone created in C++ using raylib.
 * Crouch = down directional key
 * Punch = A letter key
 * Kick = S letter key
+* Quit = Escape key
 
 ## Screenshot
 
