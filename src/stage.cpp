@@ -241,7 +241,7 @@ void GameStage::villainMovementTick()
     }
 }
 
-void GameStage::handleVillainMovement()
+void GameStage::villainFollowPlayer()
 {
     if (villainX > game->player->x)
     {
@@ -255,6 +255,19 @@ void GameStage::handleVillainMovement()
         villainX += 1;
         if (game->stage == 3)
             spinningChainX += 1;
+    }
+}
+
+void GameStage::handleVillainMovement()
+{
+    switch(villainMoveState)
+    {
+        case MOVE_STATE_FORWARD_WITH_ATTACK:
+            break;
+        default:
+            // MOVE_STATE_FOLLOW_PLAYER
+            villainFollowPlayer();
+            break;
     }
 }
 
@@ -531,6 +544,7 @@ void GameStage::reset()
     spinningChainY = 155;
 
     endState = END_STATE_START;
+    villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
 
     if (isVillainFlipped)
     {

@@ -17,6 +17,9 @@
 #define VILLAIN_SPRITE_FRAME_SPEED 3
 #define SPINNING_CHAIN_SPEED 6
 
+#define MOVE_STATE_FOLLOW_PLAYER 0
+#define MOVE_STATE_FORWARD_WITH_ATTACK 1
+
 #define END_STATE_START 0
 #define END_STATE_PLAY_SOUND 1
 #define END_STATE_SHOWTIME 2
@@ -123,6 +126,7 @@ class GameStage: public Stage
         void showVillain();
         void handleVillainMovement();
         void villainMovementTick();
+        void villainFollowPlayer();
         void flipVillainSprites();
         void setEndStateWithPlayerMovement(int pMove, bool flip, bool playSound);
         bool isVillainFlipped = false;
@@ -132,6 +136,7 @@ class GameStage: public Stage
         int haltTime;
         int maxHaltTime;
         int endState = END_STATE_START;
+        int villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
 };
 
 const string Villains[] = {
