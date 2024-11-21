@@ -470,7 +470,8 @@ void GameStage::showVillain()
                 game->sprites.at("spinning_chain").play();
             }
 
-            game->sprites.at(Villains[game->stage - 1] + "_normal").drawByIndex(0);
+            game->sprites.at(Villains[game->stage - 1] + "_normal").paused = game->player->showHit;
+            game->sprites.at(Villains[game->stage - 1] + "_normal").play();
             break;
     }
 

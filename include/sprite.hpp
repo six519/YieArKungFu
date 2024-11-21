@@ -22,6 +22,7 @@ class Sprite
     public:
         int x;
         int y;
+        bool paused = false;
         Sprite(string imagePath);
         Texture2D getTexture();
         void unload();

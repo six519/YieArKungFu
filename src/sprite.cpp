@@ -48,7 +48,9 @@ void Sprite::play()
     if (framesCounter >= (TARGET_FPS / frameSpeed))
     {
         framesCounter = 0;
-        currentFrame++;
+
+        if (!paused)
+            currentFrame++;
 
         if (currentFrame > (tileCount - 1))
         {
