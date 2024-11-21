@@ -125,10 +125,14 @@ void TitleStage::init()
 
 void TitleStage::handleKeys()
 {
-    if(IsKeyDown(KEY_ENTER) && !blinkEnter)
+    if(IsKeyDown(KEY_ENTER) && !blinkEnter && canEnter)
     {
         blinkEnter = true;
         PlayMusicStream(game->musics.at("bg"));
+    }
+    else if (IsKeyReleased(KEY_ENTER))
+    {
+        canEnter = true;
     }
 }
 
@@ -229,6 +233,15 @@ void GameStage::handleKeys()
 {
     if (game->player->health > 0 && villainHealth > 0)
         game->player->handleKeys();
+
+    if (game->gameStage->endState == END_STATE_GAME_OVER && IsKeyDown(KEY_ENTER))
+    {
+        cleanUp();
+        game->state = 0;
+        game->stage = 1;
+        game->score = 0;
+        game->titleStage->canEnter = false;
+    }
 }
 
 void GameStage::stageDraw()
@@ -288,6 +301,18 @@ void GameStage::stageDraw()
 
     // show player
     game->player->play();
+
+
+    if (game->gameStage->endState == END_STATE_GAME_OVER)
+    {
+        drawText(
+            "game over", 
+            (GAME_WIDTH / 2) - ((9 * LETTER_WIDTH) / 2), 
+            (GAME_HEIGHT / 2) - (LETTER_WIDTH / 2), 
+            false
+        );
+    }
+
 }
 
 void GameStage::onBlinkingDone(){}
@@ -376,10 +401,18 @@ void GameStage::handleEndState()
             break;
         case END_STATE_END:
             maxHaltTime = HIGH_TIME;
+            if (game->stage == 4)
+            {
+                PlaySound(game->sounds.at("game_over"));
+                endState = END_STATE_GAME_OVER;
+                return;
+            }
             cleanUp();
             game->stage += 1;
             game->state = STAGE_VIEW;
             PlayMusicStream(game->musics.at("bg"));
+            break;
+        case END_STATE_GAME_OVER:
             break;
         default:
             // END_STATE_START

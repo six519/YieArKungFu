@@ -26,6 +26,7 @@
 #define END_STATE_SMILE 8
 #define END_STATE_COUNT_LIFE 9
 #define END_STATE_END 10
+#define END_STATE_GAME_OVER 11
 
 #define HIGH_TIME 2
 #define LOW_TIME 1
@@ -80,6 +81,7 @@ class TitleStage: public Stage
         int maxBlink = 4;
         int blinkCount = 0;
     public:
+        bool canEnter = true;
         void cleanUp();
 };
 
