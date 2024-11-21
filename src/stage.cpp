@@ -226,6 +226,36 @@ void GameStage::run()
         game->player->timeTick();
         game->player->handleJump();
     }
+
+    if (!game->player->showHit && villainHealth > 0)
+        villainMovementTick();
+}
+
+void GameStage::villainMovementTick()
+{
+    villainMovementCounter++;
+    if (villainMovementCounter >= (TARGET_FPS / VILLAIN_FRAME_SPEED))
+    {
+        villainMovementCounter = 0;
+        handleVillainMovement();
+    }
+}
+
+void GameStage::handleVillainMovement()
+{
+    if (villainX > game->player->x)
+    {
+        villainX -= 1;
+        if (game->stage == 3)
+            spinningChainX -= 1;
+    }
+
+    if (villainX < game->player->x)
+    {
+        villainX += 1;
+        if (game->stage == 3)
+            spinningChainX += 1;
+    }
 }
 
 void GameStage::handleKeys()
@@ -494,6 +524,7 @@ void GameStage::reset()
     villainY = VILLAIN_DEFAULT_Y;
     pauseMovement = false;
     haltTime = 0;
+    villainMovementCounter = 0;
     maxHaltTime = HIGH_TIME;
 
     spinningChainX = 140;

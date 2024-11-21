@@ -13,6 +13,8 @@
 #define VILLAIN_MOVE_LEFT 1
 #define VILLAIN_MOVE_RIGHT 2
 #define VILLAIN_MOVE_DEAD 3
+#define VILLAIN_FRAME_SPEED 13
+#define VILLAIN_SPRITE_FRAME_SPEED 3
 #define SPINNING_CHAIN_SPEED 6
 
 #define END_STATE_START 0
@@ -116,8 +118,11 @@ class GameStage: public Stage
         int villainX;
         int villainY;
         int villainCurrentMove = VILLAIN_MOVE_NONE;
+        int villainMovementCounter;
         void setVillainSpritesCoordinates();
         void showVillain();
+        void handleVillainMovement();
+        void villainMovementTick();
         void flipVillainSprites();
         void setEndStateWithPlayerMovement(int pMove, bool flip, bool playSound);
         bool isVillainFlipped = false;

@@ -24,6 +24,12 @@ Game::Game()
     sprites.at("mu_normal").setTileCount(2);
     sprites.at("spinning_chain").setTileCount(8);
 
+    //override speeds of villain sprites    
+    for(int x = 0; x < sizeof(Villains) / sizeof(Villains[0]); x++)
+    {
+        sprites.at(Villains[x] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
+    }
+
     // initialize musics
     for (auto& name : MusicsList)
     {
