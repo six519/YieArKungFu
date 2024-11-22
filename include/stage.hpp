@@ -127,6 +127,8 @@ class GameStage: public Stage
         void handleVillainMovement();
         void villainMovementTick();
         void villainFollowPlayer();
+        void villainSimpleAttack();
+        bool isVillainNearPlayer();
         void flipVillainSprites();
         void setEndStateWithPlayerMovement(int pMove, bool flip, bool playSound);
         bool isVillainFlipped = false;

@@ -258,6 +258,19 @@ void GameStage::villainFollowPlayer()
     }
 }
 
+void GameStage::villainSimpleAttack(){}
+
+bool GameStage::isVillainNearPlayer()
+{
+    int boundary = (game->sprites.at("player_normal").getTexture().width / game->sprites.at("player_normal").getTileCount()) + 10;
+
+    return (villainX >= game->player->x - boundary
+            && isVillainFlipped)
+            ||
+            (villainX <= game->player->x + boundary
+            && !isVillainFlipped);
+}
+
 void GameStage::handleVillainMovement()
 {
     switch(villainMoveState)
@@ -267,6 +280,12 @@ void GameStage::handleVillainMovement()
         default:
             // MOVE_STATE_FOLLOW_PLAYER
             villainFollowPlayer();
+
+            if (isVillainNearPlayer())
+            {
+                villainSimpleAttack();
+            }
+
             break;
     }
 }
