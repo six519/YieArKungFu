@@ -151,7 +151,8 @@ const string Villains[] = {
 
 const string VillainSprites[] = {
     "normal",
-    "dead"
+    "dead",
+    "kick"
 };
 
 const CollisionInfo collisionsInfo[] = {

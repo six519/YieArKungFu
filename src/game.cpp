@@ -24,10 +24,17 @@ Game::Game()
     sprites.at("mu_normal").setTileCount(2);
     sprites.at("spinning_chain").setTileCount(8);
 
+    sprites.at("wang_kick").setTileCount(2);
+    sprites.at("tao_kick").setTileCount(2);
+    sprites.at("chen_kick").setTileCount(2);
+    sprites.at("lang_kick").setTileCount(2);
+    sprites.at("mu_kick").setTileCount(2);
+
     //override speeds of villain sprites    
     for(int x = 0; x < sizeof(Villains) / sizeof(Villains[0]); x++)
     {
         sprites.at(Villains[x] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
+        sprites.at(Villains[x] + "_kick").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
     }
 
     // initialize musics
