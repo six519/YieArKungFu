@@ -13,6 +13,7 @@
 #define VILLAIN_MOVE_LEFT 1
 #define VILLAIN_MOVE_RIGHT 2
 #define VILLAIN_MOVE_DEAD 3
+#define VILLAIN_MOVE_KICK 4
 #define VILLAIN_FRAME_SPEED 21
 #define VILLAIN_SPRITE_FRAME_SPEED 3
 #define SPINNING_CHAIN_SPEED 6
@@ -50,6 +51,7 @@ struct CollisionInfo
     int y;
     int width;
     int height;
+    int minusXKick;
 };
 
 class Stage: public Timer
@@ -156,11 +158,11 @@ const string VillainSprites[] = {
 };
 
 const CollisionInfo collisionsInfo[] = {
-    {5, 6, 8, 16, 32},
-    {7, 4, 8, 16, 32},
-    {9, 7, 8, 16, 32},
-    {7, 4, 9, 9, 31},
-    {12, 2, 8, 17, 32},
+    {5, 6, 8, 16, 32, 11},
+    {7, 4, 8, 16, 32, 12},
+    {9, 7, 8, 16, 32, 8},
+    {7, 4, 9, 9, 31, 7},
+    {12, 2, 8, 17, 32, 6},
 };
 
 #endif

@@ -258,7 +258,11 @@ void GameStage::villainFollowPlayer()
     }
 }
 
-void GameStage::villainSimpleAttack(){}
+void GameStage::villainSimpleAttack()
+{
+    villainMoveState = MOVE_STATE_FORWARD_WITH_ATTACK;
+    villainCurrentMove = VILLAIN_MOVE_KICK;
+}
 
 bool GameStage::isVillainNearPlayer()
 {
@@ -521,6 +525,10 @@ void GameStage::showVillain()
             break;
         case VILLAIN_MOVE_DEAD:
             game->sprites.at(Villains[game->stage - 1] + "_dead").draw();
+            break;
+        case VILLAIN_MOVE_KICK:
+            game->sprites.at(Villains[game->stage - 1] + "_kick").x = villainX - collisionsInfo[game->stage - 1].minusXKick;
+            game->sprites.at(Villains[game->stage - 1] + "_kick").play();
             break;
         default:
             // VILLAIN_MOVE_IDLE
