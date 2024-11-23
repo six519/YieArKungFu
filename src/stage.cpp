@@ -528,6 +528,7 @@ void GameStage::showVillain()
             break;
         case VILLAIN_MOVE_KICK:
             game->sprites.at(Villains[game->stage - 1] + "_kick").x = villainX - collisionsInfo[game->stage - 1].minusXKick;
+            game->sprites.at(Villains[game->stage - 1] + "_kick").paused = game->player->showHit;
             game->sprites.at(Villains[game->stage - 1] + "_kick").play();
             break;
         default:
