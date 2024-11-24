@@ -71,6 +71,11 @@ const vector<string> SpriteImages = {
     "chen_kick",
     "lang_kick",
     "mu_kick",
+    "wang_other",
+    "tao_other",
+    "chen_other",
+    "lang_other",
+    "mu_other"
 };
 
 const string CopyrightText = "* 1985 konami";
