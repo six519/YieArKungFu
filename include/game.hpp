@@ -6,6 +6,7 @@
 
 #include <map>
 #include <raylib.h>
+#include <random>
 #include "settings.hpp"
 #include "stage.hpp"
 #include "sprite.hpp"
@@ -38,6 +39,7 @@ class Game
         map<string, Sound> sounds;
         Game();
         void run();
+        int getRandomNumber(int min, int max);
 };
 
 const vector<string> MusicsList = {

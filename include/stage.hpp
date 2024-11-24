@@ -142,6 +142,7 @@ class GameStage: public Stage
         int maxHaltTime;
         int endState = END_STATE_START;
         int villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
+        int villainRandomAttack = -1;
 };
 
 const string Villains[] = {
@@ -153,9 +154,10 @@ const string Villains[] = {
 };
 
 const string VillainSprites[] = {
+    "kick",
+    "other",
     "normal",
-    "dead",
-    "kick"
+    "dead"
 };
 
 const CollisionInfo collisionsInfo[] = {
@@ -164,6 +166,11 @@ const CollisionInfo collisionsInfo[] = {
     {9, 7, 8, 16, 32, 8},
     {7, 4, 9, 9, 31, 7},
     {12, 2, 8, 17, 32, 6},
+};
+
+const int attackList[] = {
+    VILLAIN_MOVE_KICK,
+    VILLAIN_MOVE_OTHER
 };
 
 #endif

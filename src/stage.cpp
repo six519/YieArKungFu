@@ -261,7 +261,8 @@ void GameStage::villainFollowPlayer()
 void GameStage::villainSimpleAttack()
 {
     villainMoveState = MOVE_STATE_FORWARD_WITH_ATTACK;
-    villainCurrentMove = VILLAIN_MOVE_KICK;
+    villainRandomAttack = game->getRandomNumber(0, 1);
+    villainCurrentMove = attackList[villainRandomAttack];
 }
 
 bool GameStage::isVillainNearPlayer()
@@ -527,16 +528,17 @@ void GameStage::showVillain()
             game->sprites.at(Villains[game->stage - 1] + "_dead").draw();
             break;
         case VILLAIN_MOVE_KICK:
-            game->sprites.at(Villains[game->stage - 1] + "_kick").x = villainX - collisionsInfo[game->stage - 1].minusXKick;
-            game->sprites.at(Villains[game->stage - 1] + "_kick").paused = game->player->showHit;
+        case VILLAIN_MOVE_OTHER:
+            game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).x = villainX - collisionsInfo[game->stage - 1].minusXKick;
+            game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).paused = game->player->showHit;
             
-            if (game->sprites.at(Villains[game->stage - 1] + "_kick").play()) // if last frame
+            if (game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).play()) // if last frame
             {
                 //TODO: Check colllision to player
                 // the code below is temporary
                 villainCurrentMove = VILLAIN_MOVE_IDLE;
                 villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
-                game->sprites.at(Villains[game->stage - 1] + "_kick").resetCurrentFrame();
+                game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).resetCurrentFrame();
             }
             break;
         default:
@@ -555,11 +557,11 @@ void GameStage::showVillain()
     }
 
     //flip checker
-    if ((game->player->x) > villainX && !isVillainFlipped && villainCurrentMove != VILLAIN_MOVE_KICK)
+    if ((game->player->x) > villainX && !isVillainFlipped && villainCurrentMove != VILLAIN_MOVE_KICK && villainCurrentMove != VILLAIN_MOVE_OTHER)
     {
         flipVillainSprites();
     }
-    if ((villainX) > game->player->x  && isVillainFlipped && villainCurrentMove != VILLAIN_MOVE_KICK)
+    if ((villainX) > game->player->x  && isVillainFlipped && villainCurrentMove != VILLAIN_MOVE_KICK && villainCurrentMove != VILLAIN_MOVE_OTHER)
     {
         flipVillainSprites();
     }
