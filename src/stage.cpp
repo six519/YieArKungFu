@@ -529,7 +529,15 @@ void GameStage::showVillain()
         case VILLAIN_MOVE_KICK:
             game->sprites.at(Villains[game->stage - 1] + "_kick").x = villainX - collisionsInfo[game->stage - 1].minusXKick;
             game->sprites.at(Villains[game->stage - 1] + "_kick").paused = game->player->showHit;
-            game->sprites.at(Villains[game->stage - 1] + "_kick").play();
+            
+            if (game->sprites.at(Villains[game->stage - 1] + "_kick").play()) // if last frame
+            {
+                //TODO: Check colllision to player
+                // the code below is temporary
+                villainCurrentMove = VILLAIN_MOVE_IDLE;
+                villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
+                game->sprites.at(Villains[game->stage - 1] + "_kick").resetCurrentFrame();
+            }
             break;
         default:
             // VILLAIN_MOVE_IDLE
@@ -547,11 +555,11 @@ void GameStage::showVillain()
     }
 
     //flip checker
-    if ((game->player->x) > villainX && !isVillainFlipped)
+    if ((game->player->x) > villainX && !isVillainFlipped && villainCurrentMove != VILLAIN_MOVE_KICK)
     {
         flipVillainSprites();
     }
-    if ((villainX) > game->player->x  && isVillainFlipped)
+    if ((villainX) > game->player->x  && isVillainFlipped && villainCurrentMove != VILLAIN_MOVE_KICK)
     {
         flipVillainSprites();
     }

@@ -27,12 +27,13 @@ class Sprite
         Texture2D getTexture();
         void unload();
         void draw();
-        void play();
+        bool play();
         void drawByIndex(int index);
         void setTileCount(int count);
         int getTileCount();
         void flipHorizontal();
         void overrideFrameSpeed(int speed);
+        void resetCurrentFrame();
 };
 
 const vector<string> SpriteImages = {

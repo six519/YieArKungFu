@@ -41,8 +41,9 @@ void Sprite::flipHorizontal()
     frameRect.width = -frameRect.width;
 }
 
-void Sprite::play()
+bool Sprite::play()
 {
+    bool isLastFrame = false;
     framesCounter++;
 
     if (framesCounter >= (TARGET_FPS / frameSpeed))
@@ -55,12 +56,13 @@ void Sprite::play()
         if (currentFrame > (tileCount - 1))
         {
             currentFrame = 0;
-            //this->onLastFrame();
+            isLastFrame = true;
         }
         frameRect.x = (float)currentFrame*(float)texture.width/tileCount;
     }
 
     draw();
+    return isLastFrame;
 }
 
 void Sprite::overrideFrameSpeed(int speed)
@@ -71,4 +73,10 @@ void Sprite::overrideFrameSpeed(int speed)
 int Sprite::getTileCount()
 {
     return tileCount;
+}
+
+void Sprite::resetCurrentFrame()
+{
+    currentFrame = 0;
+    framesCounter = 0;
 }
