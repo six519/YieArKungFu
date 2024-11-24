@@ -160,7 +160,7 @@ const string VillainSprites[] = {
 
 const CollisionInfo collisionsInfo[] = {
     {5, 6, 8, 16, 32, 11},
-    {7, 4, 8, 16, 32, 12},
+    {7, 4, 8, 5, 32, 12}, //{7, 4, 8, 16, 32, 12}, (TODO: NOT SURE IF THIS IS THE FIX FOR TAO)
     {9, 7, 8, 16, 32, 8},
     {7, 4, 9, 9, 31, 7},
     {12, 2, 8, 17, 32, 6},
