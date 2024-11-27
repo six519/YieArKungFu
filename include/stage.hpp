@@ -16,6 +16,7 @@
 #define VILLAIN_MOVE_KICK 4
 #define VILLAIN_MOVE_OTHER 5
 #define VILLAIN_MOVE_SPECIAL 6
+#define VILLAIN_MOVE_PAUSE 7
 #define VILLAIN_FRAME_SPEED 21
 #define VILLAIN_SPRITE_FRAME_SPEED 3
 #define SPINNING_CHAIN_SPEED 6
@@ -130,12 +131,16 @@ class GameStage: public Stage
         int spinningChainX;
         int spinningChainY;
         int haltTime;
+        int haltTimeHit;
         int maxHaltTime;
         int endState = END_STATE_START;
         int villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
         int villainRandomAttack = -1;
         bool isCollidedWithPlayer();
         void checkCollisionWithPlayer(int *vX, int *vY, int *vBoxWidth, int *vBoxHeight, const CollisionInfo collisionInfo[]);
+        bool showVillainHit;
+        void resetVillainMove();
+        void handleCollisionWithPlayer();
 };
 
 const string Villains[] = {
@@ -164,18 +169,18 @@ const CollisionInfo collisionsInfo[] = {
 
 const CollisionInfo collisionsKickInfo[] = {
     {0, 44, 20, 6, 4, 0},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0}
+    {0, 33, 20, 6, 4, 0},
+    {0, 35, 13, 5, 2, 0},
+    {0, 25, 8, 4, 6, 0},
+    {0, 33, 26, 6, 4, 0}
 };
 
 const CollisionInfo collisionsOtherInfo[] = {
     {0, 47, 26, 3, 2, 0},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0}
+    {7, 29, 15, 3, 2, 0},
+    {0, 37, 19, 3, 3, 0},
+    {0, 23, 36, 6, 3, 0},
+    {7, 29, 15, 3, 3, 0}
 };
 
 const int attackList[] = {

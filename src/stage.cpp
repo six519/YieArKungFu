@@ -369,6 +369,9 @@ void GameStage::stageDraw()
     // show player
     game->player->play();
 
+    if (showVillainHit)
+        game->sprites.at(Villains[game->stage - 1] + "_hit").draw();
+
 
     if (game->gameStage->endState == END_STATE_GAME_OVER)
     {
@@ -428,6 +431,26 @@ void GameStage::onTimeTick()
         {
             handleEndState();
             haltTime = 0;
+        }
+    }
+
+    if (showVillainHit)
+    {
+        haltTimeHit += 1;
+        if (haltTimeHit == 4)
+        {
+            haltTimeHit = 0;
+            showVillainHit = false;
+            resetVillainMove();
+
+            if (
+                (game->player->currentMovement == PLAYER_RIGHT && !IsKeyDown(KEY_RIGHT))
+                || (game->player->currentMovement == PLAYER_LEFT && !IsKeyDown(KEY_LEFT))
+                || (game->player->currentMovement == PLAYER_DOWN && !IsKeyDown(KEY_DOWN))
+            )
+            {
+                game->player->setMovement(PLAYER_IDLE);
+            }
         }
     }
 }
@@ -511,6 +534,8 @@ void GameStage::setVillainSpritesCoordinates()
 {
     for(int x = 0; x < sizeof(VillainSprites) / sizeof(VillainSprites[0]); x++)
     {
+        if (VillainSprites[x] == "hit" || VillainSprites[x] == "other" || VillainSprites[x] == "kick")
+            continue;
         game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[x]).x = villainX;
         game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[x]).y = villainY;
     }
@@ -560,7 +585,35 @@ bool GameStage::isCollidedWithPlayer()
     }
 
     // collided
+    game->sprites.at(Villains[game->stage - 1] + "_hit").x = vX;
+    game->sprites.at(Villains[game->stage - 1] + "_hit").y = vY;
     return true;
+}
+
+void GameStage::resetVillainMove()
+{
+    villainCurrentMove = VILLAIN_MOVE_IDLE;
+    villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
+    game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).resetCurrentFrame();
+}
+
+void GameStage::handleCollisionWithPlayer()
+{
+    villainCurrentMove = VILLAIN_MOVE_PAUSE;
+    showVillainHit = true;
+    PlaySound(game->sounds.at("collided2"));
+    haltTimeHit = 0;
+
+    if (!isVillainFlipped)
+    {
+        villainX += 1;
+        if (game->stage == 3)
+            spinningChainX += 1;
+        return;
+    }
+    villainX -= 1;
+    if (game->stage == 3)
+        spinningChainX -= 1;
 }
 
 void GameStage::showVillain()
@@ -576,23 +629,26 @@ void GameStage::showVillain()
             break;
         case VILLAIN_MOVE_KICK:
         case VILLAIN_MOVE_OTHER:
+            game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).y = villainY;
             game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).x = villainX - collisionsInfo[game->stage - 1].minusXKick;
             game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).paused = game->player->showHit;
             
             if (game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).play()) // if last frame
             {
-                //if (!isCollidedWithPlayer())
-                //{
-                    villainCurrentMove = VILLAIN_MOVE_IDLE;
-                    villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
-                    game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).resetCurrentFrame();
-                //}
-                //else
-                //{
+                if (!isCollidedWithPlayer())
+                {
+                    resetVillainMove();
+                }
+                else
+                {
                     // collision with player
-
-                //}
+                    handleCollisionWithPlayer();
+                }
             }
+            break;
+        case VILLAIN_MOVE_PAUSE:
+            //game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).x = villainX - collisionsInfo[game->stage - 1].minusXKick;
+            game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).drawByIndex(1);
             break;
         default:
             // VILLAIN_MOVE_IDLE
@@ -628,6 +684,7 @@ void GameStage::reset()
     villainY = VILLAIN_DEFAULT_Y;
     pauseMovement = false;
     haltTime = 0;
+    haltTimeHit = 0;
     villainMovementCounter = 0;
     maxHaltTime = HIGH_TIME;
 
@@ -636,6 +693,7 @@ void GameStage::reset()
 
     endState = END_STATE_START;
     villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
+    showVillainHit = false;
 
     if (isVillainFlipped)
     {

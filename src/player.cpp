@@ -57,6 +57,7 @@ void Player::play()
     {
     case PLAYER_LEFT:
     case PLAYER_RIGHT:
+        game->sprites.at("player_normal").paused = game->gameStage->showVillainHit;
         game->sprites.at("player_normal").play();
         break;
     case PLAYER_DOWN:
@@ -113,7 +114,7 @@ void Player::play()
 void Player::onTimeTick()
 {
     if (
-        inputDisabled && currentMovement != PLAYER_UP && currentMovement != PLAYER_COMING_DOWN
+        inputDisabled && currentMovement != PLAYER_UP && currentMovement != PLAYER_COMING_DOWN && !game->gameStage->showVillainHit
     )
     {
         haltTime += 1;
@@ -134,7 +135,7 @@ void Player::onTimeTick()
         }
     }
 
-    if (inputDisabled && isFlyingKick)
+    if (inputDisabled && isFlyingKick && !game->gameStage->showVillainHit)
     {
         haltTimeJump += 1;
 
@@ -155,7 +156,7 @@ void Player::setMovement(int move)
 void Player::handleKeys()
 {
     // making sure that it will be executed only on a specific state
-    if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement)
+    if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement && !game->gameStage->showVillainHit)
     {
         if (IsKeyDown(KEY_LEFT) && x > STAGE_BOUNDARY)
         {
@@ -240,6 +241,7 @@ void Player::handleKeys()
         && y <= (PLAYER_JUMP_HEIGHT + 24) // TODO: Not sure if it is the right Math (16 ORIGINALY)
         && canFlyingKick
         && !game->gameStage->pauseMovement
+        && !game->gameStage->showVillainHit
     )
     {
         isFlyingKick = true;
@@ -262,7 +264,7 @@ void Player::handleAttack(bool condition, int movement)
 
 void Player::handleJump()
 {
-    if (currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN)
+    if ((currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN) && !game->gameStage->showVillainHit)
     {
         jumpFramesCounter++;
         if (jumpFramesCounter >= (TARGET_FPS / accelerationSpeed))
