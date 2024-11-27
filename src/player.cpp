@@ -245,7 +245,7 @@ void Player::handleKeys()
         isFlyingKick = true;
         haltTimeJump = 0;
         canFlyingKick = false;
-        checkCollisionWithVillain();
+        isCollidedWithVillain();
     }
 }
 
@@ -256,7 +256,7 @@ void Player::handleAttack(bool condition, int movement)
         inputDisabled = true;
         canAttack = false;
         setMovement(movement);
-        checkCollisionWithVillain();
+        isCollidedWithVillain();
     }
 }
 
@@ -331,7 +331,16 @@ void Player::handleTowardsJump()
     }
 }
 
-void Player::checkCollisionWithVillain()
+
+void Player::checkCollisionWithVillain(int *playerX, int *playerY, int *playerBoxWidth, int *playerBoxHeight, CollisionInfo collisionInfo)
+{
+    *playerX = (game->player->isFlipped)? game->player->x : (game->player->x + collisionInfo.x1) ;
+    *playerY = (game->player->y + collisionInfo.y);
+    *playerBoxWidth = collisionInfo.width;
+    *playerBoxHeight = collisionInfo.height;
+}
+
+void Player::isCollidedWithVillain()
 {
     int villainX = (game->gameStage->isVillainFlipped)? (game->gameStage->villainX + collisionsInfo[game->stage - 1].x2) : (game->gameStage->villainX + collisionsInfo[game->stage - 1].x1);
     int villainY = (game->gameStage->villainY + collisionsInfo[game->stage - 1].y);
@@ -349,44 +358,26 @@ void Player::checkCollisionWithVillain()
     switch(currentMovement)
     {
         case PLAYER_SIT_PUNCH:
-            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 28) ;
-            playerY = (game->player->y + 19);
-            playerBoxWidth = 3;
-            playerBoxHeight = 3;
+            checkCollisionWithVillain(&playerX, &playerY, &playerBoxWidth, &playerBoxHeight, collisionInfoSitPunch);
             break;
         case PLAYER_STAND_KICK:
-            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 25) ;
-            playerY = (game->player->y + 24);
-            playerBoxWidth = 6;
-            playerBoxHeight = 5;
+            checkCollisionWithVillain(&playerX, &playerY, &playerBoxWidth, &playerBoxHeight, collisionInfoStandKick);
             break;
         case PLAYER_SIT_KICK:
-            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 30) ;
-            playerY = (game->player->y + 27);
-            playerBoxWidth = 6;
-            playerBoxHeight = 5;
+            checkCollisionWithVillain(&playerX, &playerY, &playerBoxWidth, &playerBoxHeight, collisionInfoSitKick);
             break;
         case PLAYER_HIGH_KICK:
-            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 27) ;
-            playerY = (game->player->y + 3);
-            playerBoxWidth = 5;
-            playerBoxHeight = 4;
+            checkCollisionWithVillain(&playerX, &playerY, &playerBoxWidth, &playerBoxHeight, collisionInfoHighKick);
             scoreToAdd = 200;
             break;
         case PLAYER_UP:
         case PLAYER_COMING_DOWN:
-            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 31) ;
-            playerY = (game->player->y + 24);
-            playerBoxWidth = 4;
-            playerBoxHeight = 5;
+            checkCollisionWithVillain(&playerX, &playerY, &playerBoxWidth, &playerBoxHeight, collisionInfoAir);
             scoreToAdd = 300;
             break;
         default:
             //PLAYER_STAND_PUNCH
-            playerX = (game->player->isFlipped)? game->player->x : (game->player->x + 25) ;
-            playerY = (game->player->y + 14);
-            playerBoxWidth = 3;
-            playerBoxHeight = 3;
+            checkCollisionWithVillain(&playerX, &playerY, &playerBoxWidth, &playerBoxHeight, collisionInfoStandPunch);
             break;
     }
 

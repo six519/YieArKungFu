@@ -28,7 +28,7 @@
 #define PLAYER_JUMP_TOWARDS_RIGHT 2
 
 #include "game.hpp"
-#include "timer.hpp"
+#include "other.hpp"
 
 class Game;
 
@@ -44,11 +44,11 @@ class Player: public Timer
         int jumpTowards;
         bool isFlyingKick = false;
         bool canFlyingKick = true;
-        bool isFlipped = false;
     protected:
         Game *game;
         void onTimeTick();
     public:
+        bool isFlipped = false;
         int x;
         int y;
         int lives;
@@ -65,7 +65,8 @@ class Player: public Timer
         void handleAttack(bool condition, int movement);
         void handleJump();
         void handleTowardsJump();
-        void checkCollisionWithVillain();
+        void isCollidedWithVillain();
+        void checkCollisionWithVillain(int *playerX, int *playerY, int *playerBoxWidth, int *playerBoxHeight, CollisionInfo collisionInfo);
         bool showHit = false;
 };
 
@@ -79,6 +80,34 @@ const vector<string> PlayerSprites = {
     "player_high_kick",
     "player_flying_kick",
     "player_smile"
+};
+
+const CollisionInfo collisionInfoSitPunch = {
+    28, 0, 19, 3, 3, 0
+};
+
+const CollisionInfo collisionInfoStandKick = {
+    25, 0, 24, 6, 5, 0
+};
+
+const CollisionInfo collisionInfoSitKick = {
+    30, 0, 27, 6, 5, 0
+};
+
+const CollisionInfo collisionInfoHighKick = {
+    27, 0, 3, 5, 4, 0
+};
+
+const CollisionInfo collisionInfoAir = {
+    31, 0, 24, 4, 5, 0
+};
+
+const CollisionInfo collisionInfoStandPunch = {
+    25, 0, 14, 3, 3, 0
+};
+
+const CollisionInfo playerCollisionInfo = {
+    8, 10, 1, 10, 32, 0
 };
 
 #endif

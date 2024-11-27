@@ -516,6 +516,53 @@ void GameStage::setVillainSpritesCoordinates()
     }
 }
 
+void GameStage::checkCollisionWithPlayer(int *vX, int *vY, int *vBoxWidth, int *vBoxHeight, const CollisionInfo collisionInfo[])
+{
+    *vX = (isVillainFlipped)? ((villainX - collisionsInfo[game->stage - 1].minusXKick) + collisionInfo[game->stage - 1].x2) : ((villainX - collisionsInfo[game->stage - 1].minusXKick) + collisionInfo[game->stage - 1].x1);
+    *vY = (villainY + collisionInfo[game->stage - 1].y);
+    *vBoxWidth = collisionInfo[game->stage - 1].width;
+    *vBoxHeight = collisionInfo[game->stage - 1].height;
+}
+
+bool GameStage::isCollidedWithPlayer()
+{
+    int pX = (game->player->isFlipped)? (game->player->x + playerCollisionInfo.x2) : (game->player->x + playerCollisionInfo.x1);
+    int pY = (game->player->y + playerCollisionInfo.y);
+    int lowerX1 = pX + playerCollisionInfo.width - 1;
+    int lowerY1 = pY + playerCollisionInfo.height - 1;
+
+    int lowerX2 = 0;
+    int lowerY2 = 0;
+    int vX = 0;
+    int vY = 0;
+    int vBoxWidth = 0;
+    int vBoxHeight = 0;
+    
+    switch(villainCurrentMove)
+    {
+        case VILLAIN_MOVE_KICK:
+            checkCollisionWithPlayer(&vX, &vY, &vBoxWidth, &vBoxHeight, collisionsKickInfo);
+            break;
+        case VILLAIN_MOVE_OTHER:
+            checkCollisionWithPlayer(&vX, &vY, &vBoxWidth, &vBoxHeight, collisionsOtherInfo);
+            break;
+        default:
+            //VILLAIN_MOVE_SPECIAL
+            break;
+    }
+
+    lowerX2 = vX + vBoxWidth - 1;
+    lowerY2 = vY + vBoxHeight - 1;
+
+    if (lowerX1 < vX || game->player->x > lowerX2 || lowerY1 < vY || game->player->y > lowerY2)
+    {
+        return false;
+    }
+
+    // collided
+    return true;
+}
+
 void GameStage::showVillain()
 {
     setVillainSpritesCoordinates();
@@ -534,11 +581,17 @@ void GameStage::showVillain()
             
             if (game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).play()) // if last frame
             {
-                //TODO: Check colllision to player
-                // the code below is temporary
-                villainCurrentMove = VILLAIN_MOVE_IDLE;
-                villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
-                game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).resetCurrentFrame();
+                //if (!isCollidedWithPlayer())
+                //{
+                    villainCurrentMove = VILLAIN_MOVE_IDLE;
+                    villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
+                    game->sprites.at(Villains[game->stage - 1] + "_" + VillainSprites[villainRandomAttack]).resetCurrentFrame();
+                //}
+                //else
+                //{
+                    // collision with player
+
+                //}
             }
             break;
         default:

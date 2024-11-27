@@ -15,6 +15,7 @@
 #define VILLAIN_MOVE_DEAD 3
 #define VILLAIN_MOVE_KICK 4
 #define VILLAIN_MOVE_OTHER 5
+#define VILLAIN_MOVE_SPECIAL 6
 #define VILLAIN_FRAME_SPEED 21
 #define VILLAIN_SPRITE_FRAME_SPEED 3
 #define SPINNING_CHAIN_SPEED 6
@@ -39,21 +40,11 @@
 #define LOW_TIME 1
 
 #include "game.hpp"
-#include "timer.hpp"
+#include "other.hpp"
 
 using namespace std;
 
 class Game;
-
-struct CollisionInfo
-{
-    int x1;
-    int x2;
-    int y;
-    int width;
-    int height;
-    int minusXKick;
-};
 
 class Stage: public Timer
 {
@@ -143,6 +134,8 @@ class GameStage: public Stage
         int endState = END_STATE_START;
         int villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
         int villainRandomAttack = -1;
+        bool isCollidedWithPlayer();
+        void checkCollisionWithPlayer(int *vX, int *vY, int *vBoxWidth, int *vBoxHeight, const CollisionInfo collisionInfo[]);
 };
 
 const string Villains[] = {
@@ -165,11 +158,23 @@ const CollisionInfo collisionsInfo[] = {
     {7, 4, 8, 5, 32, 12}, //{7, 4, 8, 16, 32, 12}, (TODO: NOT SURE IF THIS IS THE FIX FOR TAO)
     {9, 7, 8, 16, 32, 8},
     {7, 4, 9, 9, 31, 7},
-    {12, 2, 8, 17, 32, 6},
+    {12, 2, 8, 17, 32, 6}
 };
 
-const CollisionInfo playerCollisionInfo = {
-    8, 10, 1, 10, 32, 0
+const CollisionInfo collisionsKickInfo[] = {
+    {0, 44, 20, 6, 4, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0}
+};
+
+const CollisionInfo collisionsOtherInfo[] = {
+    {0, 47, 26, 3, 2, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0}
 };
 
 const int attackList[] = {
