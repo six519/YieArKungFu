@@ -168,6 +168,10 @@ const CollisionInfo collisionsInfo[] = {
     {12, 2, 8, 17, 32, 6},
 };
 
+const CollisionInfo playerCollisionInfo = {
+    8, 10, 1, 10, 32, 0
+};
+
 const int attackList[] = {
     VILLAIN_MOVE_KICK,
     VILLAIN_MOVE_OTHER
