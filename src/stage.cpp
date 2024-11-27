@@ -443,6 +443,9 @@ void GameStage::onTimeTick()
             showVillainHit = false;
             resetVillainMove();
 
+            game->player->x = game->player->oldX;
+            game->player->shake = false;
+
             if (
                 (game->player->currentMovement == PLAYER_RIGHT && !IsKeyDown(KEY_RIGHT))
                 || (game->player->currentMovement == PLAYER_LEFT && !IsKeyDown(KEY_LEFT))
@@ -603,6 +606,10 @@ void GameStage::handleCollisionWithPlayer()
     showVillainHit = true;
     PlaySound(game->sounds.at("collided2"));
     haltTimeHit = 0;
+
+    game->player->oldX = game->player->x;
+    game->player->shake = true;
+    game->player->addX = true;
 
     if (!isVillainFlipped)
     {

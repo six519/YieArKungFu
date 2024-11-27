@@ -51,6 +51,12 @@ void Player::flipSprites()
 
 void Player::play()
 {
+    if (shake)
+    {
+        x = (addX)? x + PLAYER_SHAKE_FORCE : x - PLAYER_SHAKE_FORCE;
+        addX = !addX;
+    }
+
     setSpritesCoordinates();
 
     switch (currentMovement)

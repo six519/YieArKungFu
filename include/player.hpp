@@ -26,6 +26,7 @@
 #define PLAYER_JUMP_TOWARDS_NONE 0
 #define PLAYER_JUMP_TOWARDS_LEFT 1
 #define PLAYER_JUMP_TOWARDS_RIGHT 2
+#define PLAYER_SHAKE_FORCE 1
 
 #include "game.hpp"
 #include "other.hpp"
@@ -56,6 +57,9 @@ class Player: public Timer
         int currentMovement;
         bool inputDisabled;
         bool canAttack;
+        int oldX = 0;
+        bool shake = false;
+        bool addX = true;
         Player(Game *gm);
         void clear();
         void play();
