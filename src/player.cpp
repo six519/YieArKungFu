@@ -148,7 +148,7 @@ void Player::onTimeTick()
             haltTime = 0;
             showHit = false;
 
-            if (lastMovement == PLAYER_DOWN && IsKeyDown(KEY_DOWN))
+            if (lastMovement == PLAYER_DOWN && (IsKeyDown(KEY_DOWN) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))))
             {
                 setMovement(PLAYER_DOWN);
                 return;
@@ -196,51 +196,51 @@ void Player::handleKeys()
     // making sure that it will be executed only on a specific state
     if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement && !game->gameStage->showVillainHit)
     {
-        if (IsKeyDown(KEY_LEFT) && x > STAGE_BOUNDARY)
+        if ((IsKeyDown(KEY_LEFT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))) && x > STAGE_BOUNDARY)
         {
             setMovement(PLAYER_LEFT);
             x -= PLAYER_SPEED;
         }
-        else if (IsKeyDown(KEY_LEFT) && x <= STAGE_BOUNDARY)
+        else if ((IsKeyDown(KEY_LEFT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))) && x <= STAGE_BOUNDARY)
         {
             setMovement(PLAYER_IDLE);
         }
-        else if(IsKeyReleased(KEY_LEFT))
+        else if((IsKeyReleased(KEY_LEFT) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT) && IsGamepadAvailable(0))))
         {
             setMovement(PLAYER_IDLE);
         }
-        else if (IsKeyDown(KEY_RIGHT) && x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
+        else if ((IsKeyDown(KEY_RIGHT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))) && x < (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
         {
             setMovement(PLAYER_RIGHT);
             x += PLAYER_SPEED;
         }
-        else if(IsKeyDown(KEY_RIGHT) && x >= (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
+        else if((IsKeyDown(KEY_RIGHT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))) && x >= (GAME_WIDTH - STAGE_BOUNDARY - (game->sprites.at("player_normal").getTexture().width) / 2))
         {
             setMovement(PLAYER_IDLE_2);
         }
-        else if(IsKeyReleased(KEY_RIGHT))
+        else if((IsKeyReleased(KEY_RIGHT) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT) && IsGamepadAvailable(0))))
         {
             setMovement(PLAYER_IDLE);
         }
-        else if (IsKeyDown(KEY_DOWN))
+        else if ((IsKeyDown(KEY_DOWN) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))))
         {
             setMovement(PLAYER_DOWN);
         }
-        else if(IsKeyReleased(KEY_DOWN))
+        else if((IsKeyReleased(KEY_DOWN) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) && IsGamepadAvailable(0))))
         {
             setMovement(PLAYER_IDLE);
         }
         
-        if (IsKeyDown(KEY_UP))
+        if ((IsKeyDown(KEY_UP) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP))))
         {
             jumpTowards = PLAYER_JUMP_TOWARDS_NONE;
 
-            if (IsKeyDown(KEY_LEFT))
+            if ((IsKeyDown(KEY_LEFT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))))
             {
                 jumpTowards = PLAYER_JUMP_TOWARDS_LEFT;
             }
 
-            if (IsKeyDown(KEY_RIGHT))
+            if ((IsKeyDown(KEY_RIGHT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))))
             {
                 jumpTowards = PLAYER_JUMP_TOWARDS_RIGHT;
             }
@@ -251,22 +251,22 @@ void Player::handleKeys()
         }
 
         handleAttack(
-            (IsKeyDown(KEY_A) && canAttack),
-            ((IsKeyDown(KEY_DOWN))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH)
+            ((IsKeyDown(KEY_A) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT))) && canAttack),
+            (((IsKeyDown(KEY_DOWN) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))))? PLAYER_SIT_PUNCH : PLAYER_STAND_PUNCH)
         );
         
         handleAttack(
-            (IsKeyDown(KEY_S) && canAttack && (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))),
+            ((IsKeyDown(KEY_S) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))) && canAttack && ((IsKeyDown(KEY_LEFT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))) || (IsKeyDown(KEY_RIGHT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))))),
             PLAYER_HIGH_KICK
         );
 
         handleAttack(
-            (IsKeyDown(KEY_S) && canAttack),
-            ((IsKeyDown(KEY_DOWN))? PLAYER_SIT_KICK : PLAYER_STAND_KICK)
+            ((IsKeyDown(KEY_S) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))) && canAttack),
+            (((IsKeyDown(KEY_DOWN) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))))? PLAYER_SIT_KICK : PLAYER_STAND_KICK)
         );
     }
 
-    if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)) && !activateAttack)
+    if (game->state == STAGE_GAME && ((IsKeyReleased(KEY_A) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT) && IsGamepadAvailable(0))) || (IsKeyReleased(KEY_S) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && IsGamepadAvailable(0)))) && !activateAttack)
     {
         activateAttack = true;
         activateTime = 0;
@@ -274,7 +274,7 @@ void Player::handleKeys()
 
     if (
         game->state == STAGE_GAME 
-        && IsKeyDown(KEY_S) 
+        && (IsKeyDown(KEY_S) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))) 
         && !isFlyingKick
         && (currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN)
         && y <= (PLAYER_JUMP_HEIGHT + 24) // TODO: Not sure if it is the right Math (16 ORIGINALY)

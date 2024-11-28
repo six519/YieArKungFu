@@ -509,9 +509,9 @@ void GameStage::onTimeTick()
             game->player->shake = false;
 
             if (
-                (game->player->currentMovement == PLAYER_RIGHT && !IsKeyDown(KEY_RIGHT))
-                || (game->player->currentMovement == PLAYER_LEFT && !IsKeyDown(KEY_LEFT))
-                || (game->player->currentMovement == PLAYER_DOWN && !IsKeyDown(KEY_DOWN))
+                (game->player->currentMovement == PLAYER_RIGHT && !(IsKeyDown(KEY_RIGHT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))))
+                || (game->player->currentMovement == PLAYER_LEFT && !(IsKeyDown(KEY_LEFT) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))))
+                || (game->player->currentMovement == PLAYER_DOWN && !(IsKeyDown(KEY_DOWN) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))))
             )
             {
                 game->player->setMovement(PLAYER_IDLE);
