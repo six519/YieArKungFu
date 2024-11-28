@@ -276,34 +276,36 @@ void GameStage::villainModifyX(int amount, bool isAdd)
 
 void GameStage::villainRunLeft()
 {
-    if (runCounter == 2)
+    if (runCounter > VILLAIN_BACK_DISTANCE)
     {
         villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
-        game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED); 
+        game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
+        return; 
     }
     if (villainX > (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY))
     {
         villainModifyX(VILLAIN_FB_SPEED_RUN, false);
+        runCounter += 1;
         return;
     }
     villainMoveState = MOVE_STATE_RUNNING_RIGHT;
-    runCounter += 1;
 }
 
 void GameStage::villainRunRight()
 {
-    if (runCounter == 2)
+    if (runCounter > VILLAIN_BACK_DISTANCE)
     {
         villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
         game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
+        return;
     }
     if (villainX < (GAME_WIDTH - (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY) - (game->sprites.at("player_normal").getTexture().width) / 2))
     {
         villainModifyX(VILLAIN_FB_SPEED_RUN, true);
+        runCounter += 1;
         return;
     }
     villainMoveState = MOVE_STATE_RUNNING_LEFT;
-    runCounter += 1;
 }
 
 void GameStage::handleVillainMovement()
@@ -469,7 +471,7 @@ void GameStage::onTimeTick()
                 if (villainMoveState != MOVE_STATE_RUNNING_LEFT && villainMoveState != MOVE_STATE_RUNNING_RIGHT)
                 {
                     runCounter = 0;
-                    villainMoveState = (!isVillainFlipped)? MOVE_STATE_RUNNING_LEFT : MOVE_STATE_RUNNING_RIGHT;
+                    villainMoveState = (!isVillainFlipped)? MOVE_STATE_RUNNING_RIGHT : MOVE_STATE_RUNNING_LEFT;
                     game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED_RUN);   
                 }
             }
