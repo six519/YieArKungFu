@@ -19,6 +19,7 @@ void Player::clear()
     haltTime = 0;
     haltTimeJump = 0;
     canAttack = true;
+    activateAttack = false;
     lastMovement = PLAYER_NONE;
     health = DEFAULT_HEALTH;
 
@@ -167,6 +168,19 @@ void Player::onTimeTick()
             isFlyingKick = false;
         }
     }
+
+
+    if (activateAttack)
+    {
+        activateTime += 1;
+        if (activateTime == 5)
+        {
+            activateTime = 0;
+            canAttack = true;
+            activateAttack = false;
+        }
+    }
+
 }
 
 void Player::setMovement(int move)
@@ -178,7 +192,7 @@ void Player::setMovement(int move)
 void Player::handleKeys()
 {
     // making sure that it will be executed only on a specific state
-    if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement && !game->gameStage->showVillainHit && game->player->health > 0)
+    if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement && !game->gameStage->showVillainHit)
     {
         if (IsKeyDown(KEY_LEFT) && x > STAGE_BOUNDARY)
         {
@@ -250,9 +264,10 @@ void Player::handleKeys()
         );
     }
 
-    if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)) && game->player->health > 0)
+    if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)) && !activateAttack)
     {
-        canAttack = true;
+        activateAttack = true;
+        activateTime = 0;
     }
 
     if (
@@ -264,7 +279,6 @@ void Player::handleKeys()
         && canFlyingKick
         && !game->gameStage->pauseMovement
         && !game->gameStage->showVillainHit
-        && game->player->health > 0
     )
     {
         isFlyingKick = true;

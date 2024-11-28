@@ -40,6 +40,7 @@ class Player: public Timer
     private:
         int haltTime;
         int haltTimeJump;
+        int activateTime = 0;
         void setSpritesCoordinates();
         int lastMovement;
         int jumpFramesCounter = 0;
@@ -59,6 +60,7 @@ class Player: public Timer
         int currentMovement;
         bool inputDisabled;
         bool canAttack;
+        bool activateAttack;
         int oldX = 0;
         bool shake = false;
         bool addX = true;
