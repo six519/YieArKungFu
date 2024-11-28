@@ -245,16 +245,16 @@ void GameStage::villainFollowPlayer()
 {
     if (villainX > game->player->x)
     {
-        villainX -= 1;
+        villainX -= VILLAIN_FB_SPEED;
         if (game->stage == 3)
-            spinningChainX -= 1;
+            spinningChainX -= VILLAIN_FB_SPEED;
     }
 
     if (villainX < game->player->x)
     {
-        villainX += 1;
+        villainX += VILLAIN_FB_SPEED;
         if (game->stage == 3)
-            spinningChainX += 1;
+            spinningChainX += VILLAIN_FB_SPEED;
     }
 }
 
@@ -276,11 +276,55 @@ bool GameStage::isVillainNearPlayer()
             && !isVillainFlipped);
 }
 
+void GameStage::villainRunLeft()
+{
+    if (runCounter == 2)
+    {
+        villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
+        game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED); 
+    }
+    if (villainX > (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY))
+    {
+        villainX -= VILLAIN_FB_SPEED_RUN;
+        if (game->stage == 3)
+            spinningChainX -= VILLAIN_FB_SPEED_RUN;
+        return;
+    }
+    villainMoveState = MOVE_STATE_RUNNING_RIGHT;
+    runCounter += 1;
+}
+
+void GameStage::villainRunRight()
+{
+    if (runCounter == 2)
+    {
+        villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
+        game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
+    }
+    if (villainX < (GAME_WIDTH - (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY) - (game->sprites.at("player_normal").getTexture().width) / 2))
+    {
+        villainX += VILLAIN_FB_SPEED_RUN;
+        if (game->stage == 3)
+            spinningChainX += VILLAIN_FB_SPEED_RUN;
+        return;
+    }
+    villainMoveState = MOVE_STATE_RUNNING_LEFT;
+    runCounter += 1;
+}
+
 void GameStage::handleVillainMovement()
 {
     switch(villainMoveState)
     {
         case MOVE_STATE_FORWARD_WITH_ATTACK:
+            break;
+        case MOVE_STATE_RUNNING_LEFT:
+            villainCurrentMove = VILLAIN_MOVE_IDLE;
+            villainRunLeft();
+            break;
+        case MOVE_STATE_RUNNING_RIGHT:
+            villainCurrentMove = VILLAIN_MOVE_IDLE;
+            villainRunRight();
             break;
         default:
             // MOVE_STATE_FOLLOW_PLAYER
@@ -425,6 +469,15 @@ void GameStage::onTimeTick()
             {
                 StopMusicStream(game->musics.at("bg"));
                 haltTime = 0;
+            }
+            else
+            {
+                if (villainMoveState != MOVE_STATE_RUNNING_LEFT && villainMoveState != MOVE_STATE_RUNNING_RIGHT)
+                {
+                    runCounter = 0;
+                    villainMoveState = (!isVillainFlipped)? MOVE_STATE_RUNNING_LEFT : MOVE_STATE_RUNNING_RIGHT;
+                    game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED_RUN);   
+                }
             }
         }
     }
@@ -677,14 +730,14 @@ void GameStage::handleCollisionWithPlayer()
 
     if (!isVillainFlipped)
     {
-        villainX += 1;
+        villainX += VILLAIN_FB_SPEED;
         if (game->stage == 3)
-            spinningChainX += 1;
+            spinningChainX += VILLAIN_FB_SPEED;
         return;
     }
-    villainX -= 1;
+    villainX -= VILLAIN_FB_SPEED;
     if (game->stage == 3)
-        spinningChainX -= 1;
+        spinningChainX -= VILLAIN_FB_SPEED;
 }
 
 void GameStage::showVillain()
@@ -728,6 +781,7 @@ void GameStage::showVillain()
             {
                 game->sprites.at("spinning_chain").x = spinningChainX;
                 game->sprites.at("spinning_chain").y = spinningChainY;
+                game->sprites.at("spinning_chain").paused = game->player->showHit;
                 game->sprites.at("spinning_chain").play();
             }
 

@@ -178,7 +178,7 @@ void Player::setMovement(int move)
 void Player::handleKeys()
 {
     // making sure that it will be executed only on a specific state
-    if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement && !game->gameStage->showVillainHit)
+    if (game->state == STAGE_GAME && !inputDisabled && !game->gameStage->pauseMovement && !game->gameStage->showVillainHit && game->player->health > 0)
     {
         if (IsKeyDown(KEY_LEFT) && x > STAGE_BOUNDARY)
         {
@@ -250,7 +250,7 @@ void Player::handleKeys()
         );
     }
 
-    if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)))
+    if (game->state == STAGE_GAME && (IsKeyReleased(KEY_A) || IsKeyReleased(KEY_S)) && game->player->health > 0)
     {
         canAttack = true;
     }
@@ -264,6 +264,7 @@ void Player::handleKeys()
         && canFlyingKick
         && !game->gameStage->pauseMovement
         && !game->gameStage->showVillainHit
+        && game->player->health > 0
     )
     {
         isFlyingKick = true;

@@ -19,10 +19,16 @@
 #define VILLAIN_MOVE_PAUSE 7
 #define VILLAIN_FRAME_SPEED 21
 #define VILLAIN_SPRITE_FRAME_SPEED 3
+#define VILLAIN_FB_SPEED 1
+#define VILLAIN_SPRITE_FRAME_SPEED_RUN 7
+#define VILLAIN_FB_SPEED_RUN 5
+#define VILLAIN_RUN_BOUNDARY 10
 #define SPINNING_CHAIN_SPEED 6
 
 #define MOVE_STATE_FOLLOW_PLAYER 0
 #define MOVE_STATE_FORWARD_WITH_ATTACK 1
+#define MOVE_STATE_RUNNING_LEFT 2
+#define MOVE_STATE_RUNNING_RIGHT 3
 
 #define END_STATE_START 0
 #define END_STATE_PLAY_SOUND 1
@@ -149,6 +155,9 @@ class GameStage: public Stage
         bool showVillainHit;
         void resetVillainMove();
         void handleCollisionWithPlayer();
+        void villainRunLeft();
+        void villainRunRight();
+        int runCounter = 0;
 };
 
 const string Villains[] = {
