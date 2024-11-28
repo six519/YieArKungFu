@@ -26,7 +26,7 @@
 #define PLAYER_JUMP_TOWARDS_NONE 0
 #define PLAYER_JUMP_TOWARDS_LEFT 1
 #define PLAYER_JUMP_TOWARDS_RIGHT 2
-#define PLAYER_SHAKE_FORCE 1
+#define PLAYER_SHAKE_FORCE 2
 
 #include "game.hpp"
 #include "other.hpp"
@@ -83,7 +83,8 @@ const vector<string> PlayerSprites = {
     "player_sit_kick",
     "player_high_kick",
     "player_flying_kick",
-    "player_smile"
+    "player_smile",
+    "player_dead"
 };
 
 const CollisionInfo collisionInfoSitPunch = {

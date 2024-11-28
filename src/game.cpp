@@ -36,6 +36,8 @@ Game::Game()
     sprites.at("lang_other").setTileCount(2);
     sprites.at("mu_other").setTileCount(2);
 
+    sprites.at("player_dead").setTileCount(2);
+
     //override speeds of villain sprites    
     for(int x = 0; x < sizeof(Villains) / sizeof(Villains[0]); x++)
     {

@@ -80,7 +80,8 @@ const vector<string> SpriteImages = {
     "tao_hit",
     "chen_hit",
     "lang_hit",
-    "mu_hit"
+    "mu_hit",
+    "player_dead"
 };
 
 const string CopyrightText = "* 1985 konami";
