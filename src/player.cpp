@@ -185,6 +185,8 @@ void Player::onTimeTick()
 
 void Player::setMovement(int move)
 {
+    if (currentMovement == PLAYER_DEAD && move == PLAYER_IDLE)
+        return;
     lastMovement = currentMovement;
     currentMovement = move;
 }
