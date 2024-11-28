@@ -53,7 +53,8 @@ const vector<string> SoundsList = {
     "win",
     "counting",
     "game_over",
-    "collided2"
+    "collided2",
+    "feet_sound"
 };
 
 #endif
