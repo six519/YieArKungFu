@@ -37,6 +37,8 @@
 #define END_STATE_END 10
 #define END_STATE_GAME_OVER 11
 
+#define END_STATE_VILLAIN_START 0
+
 #define HIGH_TIME 2
 #define LOW_TIME 1
 
@@ -112,6 +114,7 @@ class GameStage: public Stage
         void reset();
         void run();
         void handleEndState();
+        void handleVillainEndState();
         int villainHealth;
         int villainX;
         int villainY;
@@ -134,6 +137,7 @@ class GameStage: public Stage
         int haltTimeHit;
         int maxHaltTime;
         int endState = END_STATE_START;
+        int villainEndState = END_STATE_VILLAIN_START;
         int villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
         int villainRandomAttack = -1;
         bool isCollidedWithPlayer();

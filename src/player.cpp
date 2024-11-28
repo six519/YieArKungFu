@@ -270,7 +270,7 @@ void Player::handleAttack(bool condition, int movement)
 
 void Player::handleJump()
 {
-    if ((currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN) && !game->gameStage->showVillainHit)
+    if ((currentMovement == PLAYER_UP || currentMovement == PLAYER_COMING_DOWN) && !game->gameStage->showVillainHit && game->player->health > 0)
     {
         jumpFramesCounter++;
         if (jumpFramesCounter >= (TARGET_FPS / accelerationSpeed))

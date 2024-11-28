@@ -227,7 +227,7 @@ void GameStage::run()
         game->player->handleJump();
     }
 
-    if (!game->player->showHit && villainHealth > 0)
+    if (!game->player->showHit && villainHealth > 0 && game->player->health > 0)
         villainMovementTick();
 }
 
@@ -347,8 +347,9 @@ void GameStage::stageDraw()
     //draw player's health gauge
     for (int x = 0; x < game->player->health; x++)
     {
-        game->sprites.at("health_green").draw();
-        game->sprites.at("health_green").x -= 8;
+        string h_hud = (game->player->health > LOW_HEALTH)? "green" : "red";
+        game->sprites.at("health_" + h_hud).draw();
+        game->sprites.at("health_" + h_hud).x -= 8;
     }
 
     //draw villain's health gauge
@@ -424,12 +425,22 @@ void GameStage::onTimeTick()
         }
     }
 
-    if (game->player->health == 0 || villainHealth == 0)
+    if (villainHealth == 0)
     {
         haltTime += 1;
         if (haltTime == maxHaltTime)
         {
             handleEndState();
+            haltTime = 0;
+        }
+    }
+
+    if (game->player->health == 0)
+    {
+        haltTime += 1;
+        if (haltTime == maxHaltTime)
+        {
+            handleVillainEndState();
             haltTime = 0;
         }
     }
@@ -454,8 +465,19 @@ void GameStage::onTimeTick()
             {
                 game->player->setMovement(PLAYER_IDLE);
             }
+
+            if (game->player->health == 0)
+            {
+                villainEndState = END_STATE_VILLAIN_START;
+                villainCurrentMove = VILLAIN_MOVE_PAUSE;
+            }
         }
     }
+}
+
+void GameStage::handleVillainEndState()
+{
+
 }
 
 void GameStage::handleEndState()
@@ -611,6 +633,13 @@ void GameStage::handleCollisionWithPlayer()
     game->player->shake = true;
     game->player->addX = true;
 
+    game->player->health -= 1;
+
+    if (game->player->health == LOW_HEALTH)
+    {
+        PlaySound(game->sounds.at("low_health"));
+    }
+
     if (!isVillainFlipped)
     {
         villainX += 1;
@@ -699,6 +728,7 @@ void GameStage::reset()
     spinningChainY = 155;
 
     endState = END_STATE_START;
+    villainEndState = END_STATE_VILLAIN_START;
     villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
     showVillainHit = false;
 
