@@ -15,6 +15,8 @@
 #define PLAYER_UP 10
 #define PLAYER_COMING_DOWN 11
 #define PLAYER_SMILE 12
+#define PLAYER_DEAD 13
+#define PLAYER_VERY_DEAD 14
 #define PLAYER_SPEED 1
 #define PLAYER_FRAME_SPEED 15
 #define PLAYER_DEFAULT_X 40
@@ -60,6 +62,7 @@ class Player: public Timer
         int oldX = 0;
         bool shake = false;
         bool addX = true;
+        int kuyakoy = 0;
         Player(Game *gm);
         void clear();
         void play();

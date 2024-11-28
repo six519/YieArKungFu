@@ -300,13 +300,14 @@ void GameStage::handleKeys()
     if (game->player->health > 0 && villainHealth > 0)
         game->player->handleKeys();
 
-    if (game->gameStage->endState == END_STATE_GAME_OVER && IsKeyDown(KEY_ENTER))
+    if (((game->gameStage->endState == END_STATE_GAME_OVER) || (game->gameStage->villainEndState == END_STATE_VILLAIN_GAME_OVER)) && IsKeyDown(KEY_ENTER))
     {
         cleanUp();
         game->state = 0;
         game->stage = 1;
         game->score = 0;
         game->titleStage->canEnter = false;
+        game->player->lives = PLAYER_DEFAULT_LIVES;
     }
 }
 
@@ -374,7 +375,7 @@ void GameStage::stageDraw()
         game->sprites.at(Villains[game->stage - 1] + "_hit").draw();
 
 
-    if (game->gameStage->endState == END_STATE_GAME_OVER)
+    if (game->gameStage->endState == END_STATE_GAME_OVER || game->gameStage->villainEndState == END_STATE_VILLAIN_GAME_OVER)
     {
         drawText(
             "game over", 
@@ -384,8 +385,8 @@ void GameStage::stageDraw()
         );
 
         drawText(
-            "you win", 
-            (GAME_WIDTH / 2) - ((7 * LETTER_WIDTH) / 2), 
+            (game->gameStage->endState == END_STATE_GAME_OVER )? "you win": "you lose", 
+            (GAME_WIDTH / 2) - ((((game->gameStage->endState == END_STATE_GAME_OVER )? 7: 8) * LETTER_WIDTH) / 2),
             ((GAME_HEIGHT / 2) - (LETTER_WIDTH / 2)) + 8, 
             false
         );
@@ -435,7 +436,7 @@ void GameStage::onTimeTick()
         }
     }
 
-    if (game->player->health == 0)
+    if (game->player->health == 0 && villainHealth != 0)
     {
         haltTime += 1;
         if (haltTime == maxHaltTime)
@@ -470,6 +471,8 @@ void GameStage::onTimeTick()
             {
                 villainEndState = END_STATE_VILLAIN_START;
                 villainCurrentMove = VILLAIN_MOVE_PAUSE;
+                StopMusicStream(game->musics.at("bg"));
+                game->player->kuyakoy = 0;
             }
         }
     }
@@ -477,7 +480,33 @@ void GameStage::onTimeTick()
 
 void GameStage::handleVillainEndState()
 {
-
+    switch(villainEndState)
+    {
+        case END_STATE_VILLAIN_MOVE_FEET:
+            break;
+        case END_STATE_VILLAIN_GAME_OVER:
+            break;
+        case END_STATE_VILLAIN_END:
+            if (game->player->lives > 0)
+            {
+                game->player->lives -= 1;
+                game->state = STAGE_VIEW;
+                PlayMusicStream(game->musics.at("bg"));
+                cleanUp();
+                return;
+            }
+            PlaySound(game->sounds.at("game_over"));
+            villainEndState = END_STATE_VILLAIN_GAME_OVER;
+            break;
+        default:
+            // END_STATE_VILLAIN_MOVE_FEET
+            game->player->setMovement(PLAYER_DEAD);
+            game->player->y = PLAYER_DEFAULT_Y;
+            game->sprites.at("player_dead").resetCurrentFrame();
+            PlaySound(game->sounds.at("dead"));
+            villainEndState = END_STATE_VILLAIN_MOVE_FEET;
+            break;
+    }
 }
 
 void GameStage::handleEndState()
@@ -675,7 +704,7 @@ void GameStage::showVillain()
                 {
                     resetVillainMove();
                 }
-                else
+                if(isCollidedWithPlayer() && game->player->health > 0)
                 {
                     // collision with player
                     handleCollisionWithPlayer();

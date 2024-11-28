@@ -3,6 +3,7 @@
 Player::Player(Game *gm)
 {
     game = gm;
+    lives = PLAYER_DEFAULT_LIVES;
     clear();
 
     //override framespeed here
@@ -14,7 +15,6 @@ void Player::clear()
     setMovement(PLAYER_IDLE);
     x = PLAYER_DEFAULT_X;
     y = PLAYER_DEFAULT_Y;
-    lives = PLAYER_DEFAULT_LIVES;
     inputDisabled = false;
     haltTime = 0;
     haltTimeJump = 0;
@@ -91,6 +91,22 @@ void Player::play()
         break;
     case PLAYER_SMILE:
         game->sprites.at("player_smile").draw();
+        break;
+    case PLAYER_VERY_DEAD:
+        game->sprites.at("player_dead").drawByIndex(0);
+        break;
+    case PLAYER_DEAD:
+        if (game->sprites.at("player_dead").play())
+        {
+            PlaySound(game->sounds.at("feet_sound"));
+            kuyakoy += 1;
+
+            if (kuyakoy == 3)
+            {
+                setMovement(PLAYER_VERY_DEAD);
+                game->gameStage->villainEndState = END_STATE_VILLAIN_END;
+            }
+        }
         break;
     default:
         //PLAYER_IDLE
