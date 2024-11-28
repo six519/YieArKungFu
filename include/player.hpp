@@ -29,6 +29,7 @@
 #define PLAYER_JUMP_TOWARDS_LEFT 1
 #define PLAYER_JUMP_TOWARDS_RIGHT 2
 #define PLAYER_SHAKE_FORCE 2
+#define PLAYER_CAN_ATTACK_TIME 5
 
 #include "game.hpp"
 #include "other.hpp"

@@ -173,7 +173,7 @@ void Player::onTimeTick()
     if (activateAttack)
     {
         activateTime += 1;
-        if (activateTime == 5)
+        if (activateTime == PLAYER_CAN_ATTACK_TIME)
         {
             activateTime = 0;
             canAttack = true;
