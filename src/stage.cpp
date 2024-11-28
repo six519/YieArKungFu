@@ -125,12 +125,12 @@ void TitleStage::init()
 
 void TitleStage::handleKeys()
 {
-    if(IsKeyDown(KEY_ENTER) && !blinkEnter && canEnter)
+    if((IsKeyDown(KEY_ENTER) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))) && !blinkEnter && canEnter)
     {
         blinkEnter = true;
         PlayMusicStream(game->musics.at("bg"));
     }
-    else if (IsKeyReleased(KEY_ENTER))
+    else if ((IsKeyReleased(KEY_ENTER) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_MIDDLE_RIGHT) && IsGamepadAvailable(0))))
     {
         canEnter = true;
     }
@@ -338,7 +338,7 @@ void GameStage::handleKeys()
     if (game->player->health > 0 && villainHealth > 0)
         game->player->handleKeys();
 
-    if (((game->gameStage->endState == END_STATE_GAME_OVER) || (game->gameStage->villainEndState == END_STATE_VILLAIN_GAME_OVER)) && IsKeyDown(KEY_ENTER))
+    if (((game->gameStage->endState == END_STATE_GAME_OVER) || (game->gameStage->villainEndState == END_STATE_VILLAIN_GAME_OVER)) && (IsKeyDown(KEY_ENTER) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))))
     {
         cleanUp();
         game->state = 0;
