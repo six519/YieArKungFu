@@ -157,6 +157,7 @@ class GameStage: public Stage
         void handleCollisionWithPlayer();
         void villainRunLeft();
         void villainRunRight();
+        void villainModifyX(int amount, bool isAdd);
         int runCounter = 0;
 };
 

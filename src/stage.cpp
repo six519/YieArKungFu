@@ -244,18 +244,9 @@ void GameStage::villainMovementTick()
 void GameStage::villainFollowPlayer()
 {
     if (villainX > game->player->x)
-    {
-        villainX -= VILLAIN_FB_SPEED;
-        if (game->stage == 3)
-            spinningChainX -= VILLAIN_FB_SPEED;
-    }
-
+        villainModifyX(VILLAIN_FB_SPEED, false);
     if (villainX < game->player->x)
-    {
-        villainX += VILLAIN_FB_SPEED;
-        if (game->stage == 3)
-            spinningChainX += VILLAIN_FB_SPEED;
-    }
+        villainModifyX(VILLAIN_FB_SPEED, true);
 }
 
 void GameStage::villainSimpleAttack()
@@ -276,6 +267,13 @@ bool GameStage::isVillainNearPlayer()
             && !isVillainFlipped);
 }
 
+void GameStage::villainModifyX(int amount, bool isAdd)
+{
+    villainX = (isAdd)? villainX + amount : villainX - amount;
+    if (game->stage == 3)
+        spinningChainX = (isAdd)? spinningChainX + amount : spinningChainX - amount;   
+}
+
 void GameStage::villainRunLeft()
 {
     if (runCounter == 2)
@@ -285,9 +283,7 @@ void GameStage::villainRunLeft()
     }
     if (villainX > (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY))
     {
-        villainX -= VILLAIN_FB_SPEED_RUN;
-        if (game->stage == 3)
-            spinningChainX -= VILLAIN_FB_SPEED_RUN;
+        villainModifyX(VILLAIN_FB_SPEED_RUN, false);
         return;
     }
     villainMoveState = MOVE_STATE_RUNNING_RIGHT;
@@ -303,9 +299,7 @@ void GameStage::villainRunRight()
     }
     if (villainX < (GAME_WIDTH - (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY) - (game->sprites.at("player_normal").getTexture().width) / 2))
     {
-        villainX += VILLAIN_FB_SPEED_RUN;
-        if (game->stage == 3)
-            spinningChainX += VILLAIN_FB_SPEED_RUN;
+        villainModifyX(VILLAIN_FB_SPEED_RUN, true);
         return;
     }
     villainMoveState = MOVE_STATE_RUNNING_LEFT;
@@ -730,14 +724,10 @@ void GameStage::handleCollisionWithPlayer()
 
     if (!isVillainFlipped)
     {
-        villainX += VILLAIN_FB_SPEED;
-        if (game->stage == 3)
-            spinningChainX += VILLAIN_FB_SPEED;
+        villainModifyX(VILLAIN_FB_SPEED, true);
         return;
     }
-    villainX -= VILLAIN_FB_SPEED;
-    if (game->stage == 3)
-        spinningChainX -= VILLAIN_FB_SPEED;
+    villainModifyX(VILLAIN_FB_SPEED, false);
 }
 
 void GameStage::showVillain()
