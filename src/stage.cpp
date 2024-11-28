@@ -469,10 +469,7 @@ void GameStage::onTimeTick()
 
             if (game->player->health == 0)
             {
-                villainEndState = END_STATE_VILLAIN_START;
                 villainCurrentMove = VILLAIN_MOVE_PAUSE;
-                StopMusicStream(game->musics.at("bg"));
-                game->player->kuyakoy = 0;
             }
         }
     }
@@ -482,6 +479,13 @@ void GameStage::handleVillainEndState()
 {
     switch(villainEndState)
     {
+        case END_STATE_VILLAIN_LIE_DOWN:
+            game->player->setMovement(PLAYER_DEAD);
+            game->player->y = PLAYER_DEFAULT_Y;
+            game->sprites.at("player_dead").resetCurrentFrame();
+            PlaySound(game->sounds.at("dead"));
+            villainEndState = END_STATE_VILLAIN_MOVE_FEET;
+            break;
         case END_STATE_VILLAIN_MOVE_FEET:
             break;
         case END_STATE_VILLAIN_GAME_OVER:
@@ -499,12 +503,11 @@ void GameStage::handleVillainEndState()
             villainEndState = END_STATE_VILLAIN_GAME_OVER;
             break;
         default:
-            // END_STATE_VILLAIN_MOVE_FEET
-            game->player->setMovement(PLAYER_DEAD);
-            game->player->y = PLAYER_DEFAULT_Y;
-            game->sprites.at("player_dead").resetCurrentFrame();
-            PlaySound(game->sounds.at("dead"));
-            villainEndState = END_STATE_VILLAIN_MOVE_FEET;
+            // END_STATE_VILLAIN_START
+            villainEndState = END_STATE_VILLAIN_LIE_DOWN;
+            villainCurrentMove = VILLAIN_MOVE_PAUSE;
+            StopMusicStream(game->musics.at("bg"));
+            game->player->kuyakoy = 0;
             break;
     }
 }
