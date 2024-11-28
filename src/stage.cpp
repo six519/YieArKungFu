@@ -330,6 +330,9 @@ void GameStage::stageDraw()
     drawText("score", 24, 40, false);
     drawText(to_string(game->score), 24, 48, false);
 
+    drawText("version", (GAME_WIDTH / 2) - ((7 * LETTER_WIDTH) / 2), 40, false);
+    drawText(VERSION, (GAME_WIDTH / 2) - ((5 * LETTER_WIDTH) / 2), 48, false);
+
     game->sprites.at("life").x = 168;
     for (int x = 0; x < game->player->lives; x++)
     {
