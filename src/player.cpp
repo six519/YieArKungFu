@@ -147,6 +147,8 @@ void Player::onTimeTick()
             inputDisabled = false;
             haltTime = 0;
             showHit = false;
+            activateAttack = true;
+            activateTime = 0;
 
             if (lastMovement == PLAYER_DOWN && (IsKeyDown(KEY_DOWN) || (IsGamepadAvailable(0) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))))
             {
@@ -266,7 +268,7 @@ void Player::handleKeys()
         );
     }
 
-    if (game->state == STAGE_GAME && ((IsKeyReleased(KEY_A) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT) && IsGamepadAvailable(0))) || (IsKeyReleased(KEY_S) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && IsGamepadAvailable(0)))) && !activateAttack)
+    if (game->state == STAGE_GAME && ((IsKeyReleased(KEY_A) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT) && IsGamepadAvailable(0))) || (IsKeyReleased(KEY_S) || (IsGamepadButtonReleased(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && IsGamepadAvailable(0)))) && !activateAttack && !showHit)
     {
         activateAttack = true;
         activateTime = 0;

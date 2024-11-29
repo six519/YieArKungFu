@@ -21,10 +21,10 @@
 #define VILLAIN_SPRITE_FRAME_SPEED 3
 #define VILLAIN_FB_SPEED 1
 #define VILLAIN_SPRITE_FRAME_SPEED_RUN 7
-#define VILLAIN_FB_SPEED_RUN 17 //16 before
-#define VILLAIN_RUN_BOUNDARY 30 //10 before
+#define VILLAIN_FB_SPEED_RUN 5
+#define VILLAIN_RUN_BOUNDARY 30
 #define SPINNING_CHAIN_SPEED 6
-#define VILLAIN_BACK_DISTANCE 4 //3 before
+#define VILLAIN_BACK_DISTANCE 10
 
 #define MOVE_STATE_FOLLOW_PLAYER 0
 #define MOVE_STATE_FORWARD_WITH_ATTACK 1
@@ -159,6 +159,7 @@ class GameStage: public Stage
         void villainRunLeft();
         void villainRunRight();
         void villainModifyX(int amount, bool isAdd);
+        void goDirection(bool condition, bool isRight);
         int runCounter = 0;
 };
 

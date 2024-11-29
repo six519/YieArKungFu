@@ -29,7 +29,7 @@
 #define PLAYER_JUMP_TOWARDS_LEFT 1
 #define PLAYER_JUMP_TOWARDS_RIGHT 2
 #define PLAYER_SHAKE_FORCE 2
-#define PLAYER_CAN_ATTACK_TIME 3
+#define PLAYER_CAN_ATTACK_TIME 2
 
 #include "game.hpp"
 #include "other.hpp"
@@ -41,7 +41,6 @@ class Player: public Timer
     private:
         int haltTime;
         int haltTimeJump;
-        int activateTime = 0;
         void setSpritesCoordinates();
         int lastMovement;
         int jumpFramesCounter = 0;
@@ -62,6 +61,7 @@ class Player: public Timer
         bool inputDisabled;
         bool canAttack;
         bool activateAttack;
+        int activateTime = 0;
         int oldX = 0;
         bool shake = false;
         bool addX = true;

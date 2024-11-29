@@ -274,7 +274,7 @@ void GameStage::villainModifyX(int amount, bool isAdd)
         spinningChainX = (isAdd)? spinningChainX + amount : spinningChainX - amount;   
 }
 
-void GameStage::villainRunLeft()
+void GameStage::goDirection(bool condition, bool isRight)
 {
     if (runCounter > VILLAIN_BACK_DISTANCE)
     {
@@ -282,30 +282,23 @@ void GameStage::villainRunLeft()
         game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
         return; 
     }
-    if (villainX > (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY))
+    if (condition)
     {
-        villainModifyX(VILLAIN_FB_SPEED_RUN, false);
+        villainModifyX(VILLAIN_FB_SPEED_RUN, isRight);
         runCounter += 1;
         return;
     }
-    villainMoveState = MOVE_STATE_RUNNING_RIGHT;
+    villainMoveState = (isRight)? MOVE_STATE_RUNNING_LEFT : MOVE_STATE_RUNNING_RIGHT; 
+}
+
+void GameStage::villainRunLeft()
+{
+    goDirection(villainX > (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY), false);
 }
 
 void GameStage::villainRunRight()
 {
-    if (runCounter > VILLAIN_BACK_DISTANCE)
-    {
-        villainMoveState = MOVE_STATE_FOLLOW_PLAYER;
-        game->sprites.at(Villains[game->stage - 1] + "_normal").overrideFrameSpeed(VILLAIN_SPRITE_FRAME_SPEED);
-        return;
-    }
-    if (villainX < (GAME_WIDTH - (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY) - (game->sprites.at("player_normal").getTexture().width) / 2))
-    {
-        villainModifyX(VILLAIN_FB_SPEED_RUN, true);
-        runCounter += 1;
-        return;
-    }
-    villainMoveState = MOVE_STATE_RUNNING_LEFT;
+    goDirection(villainX < (GAME_WIDTH - (STAGE_BOUNDARY + VILLAIN_RUN_BOUNDARY) - (game->sprites.at("player_normal").getTexture().width) / 2), true);
 }
 
 void GameStage::handleVillainMovement()
@@ -458,7 +451,11 @@ void GameStage::onTimeTick()
             haltTime = 0;
 
             if (game->player->currentMovement == PLAYER_UP || game->player->currentMovement == PLAYER_COMING_DOWN)
+            {
+                game->player->activateAttack = true;
+                game->player->activateTime = 0;
                 game->player->showHit = false;
+            }
 
             villainHealth -= 1;
             if (villainHealth == 0)
