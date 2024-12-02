@@ -33,7 +33,7 @@ aapt add kungfu.unsigned.apk lib/arm64-v8a/libc++_shared.so
 
 zipalign -v 4 kungfu.unsigned.apk kungfu.unsigned-align.apk
 
-apksigner sign --ks kungfu.keystore --ks-pass pass:143135Varsitarian --key-pass pass:143135Varsitarian --ks-key-alias projectKey --out kungfu.apk kungfu.unsigned-align.apk
+apksigner sign --ks kungfu.keystore --ks-pass pass:mypass --key-pass pass:mypass --ks-key-alias projectKey --out kungfu.apk kungfu.unsigned-align.apk
 
 apksigner verify -verbose kungfu.apk
 
