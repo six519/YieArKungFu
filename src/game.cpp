@@ -125,17 +125,17 @@ void Game::run()
 
 void Game::loadSprite(string name)
 {
-    sprites.insert({name, Sprite("assets/images/" + name + ".png")});
+    sprites.insert({name, Sprite(ASSETS_PATH + "images/" + name + ".png")});
 }
 
 void Game::loadMusic(string name)
 {
-    musics.insert({name, LoadMusicStream(("assets/musics/" + name + ".mp3").c_str())});
+    musics.insert({name, LoadMusicStream((ASSETS_PATH + "musics/" + name + ".mp3").c_str())});
 }
 
 void Game::loadSound(string name)
 {
-    sounds.insert({name, LoadSound(("assets/sounds/" + name + ".wav").c_str())});
+    sounds.insert({name, LoadSound((ASSETS_PATH + "sounds/" + name + ".wav").c_str())});
 }
 
 int Game::getRandomNumber(int min, int max)

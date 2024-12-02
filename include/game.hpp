@@ -1,6 +1,14 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+using namespace std;
+
+#ifdef PLATFORM_ANDROID
+    #define ASSETS_PATH string("")
+#else
+    #define ASSETS_PATH string("assets/")
+#endif
+
 #define DEFAULT_HEALTH 9
 #define LOW_HEALTH 4
 
@@ -11,8 +19,6 @@
 #include "stage.hpp"
 #include "sprite.hpp"
 #include "player.hpp"
-
-using namespace std;
 
 class TitleStage;
 class ViewStage;
