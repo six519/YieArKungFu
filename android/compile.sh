@@ -1,5 +1,5 @@
 cp -r ../assets/* assets/
-cp -r ../*.cpp .
+cp -r ../src/*.cpp .
 cp -r ../include/*.hpp . 
 
 aarch64-linux-android29-clang++ -c ../raylib/projects/VS2019-Android/raylib_android/raylib_android.NativeActivity/android_native_app_glue.c -o obj/native_app_glue.o -std=c++20 -march=armv8-a -mfix-cortex-a53-835769 -ffunction-sections -funwind-tables -fstack-protector-strong -fPIC -Wall -Wa,--noexecstack -Wformat -Werror=format-security -no-canonical-prefixes -DANDROID -DPLATFORM_ANDROID -D__ANDROID_API__=29
