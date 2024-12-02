@@ -1,0 +1,15 @@
+rm -rf assets/images
+rm -rf assets/musics
+rm -rf assets/sounds
+rm -rf dex/classes.dex
+rm -rf lib/arm64-v8a/libc++_shared.so
+rm -rf lib/arm64-v8a/libkungfu.so
+rm -rf obj/com
+rm -rf obj/*.o
+rm -rf obj/*.a
+rm -rf src/com/ferdinandsilva/kungfu/R.java
+rm -rf *.cpp
+rm -rf *.hpp
+rm -rf *.apk
+rm -rf obj.zip
+rm -rf kungfu.apk.idsig
